@@ -12,7 +12,7 @@ import theme from './theme';
 import Layout from "./components/ui/Layout";
 import Authorize from "./components/ui/Authorize";
 import Dashboard from 'views/Dashboard';
-
+import Signup from 'views/Signup';
 
 
 initialize();
@@ -27,6 +27,7 @@ root.render(
                 <Routes>
                     <Route element={<Layout />}>
                         {/* <Route exact path="/forgot-password" element={<ForgotPassword />} /> */}
+                        <Route exact path="/signup" element={<Signup />} />
                         <Route element={<Authorize />}>
                             <Route exact path="/" element={<Dashboard />} />
                         </Route>

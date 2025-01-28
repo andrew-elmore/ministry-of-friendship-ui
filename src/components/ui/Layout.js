@@ -27,10 +27,11 @@ const Layout = () => {
         <Stack direction="row" sx={{ height: '100vh', width: '100vw' }}>
             <Sheet 
                 sx={{
-                    width: 'calc(100% - 250px)',
+                    width: '100%',
                     height: '100%',
                     overflow: 'auto',
-                    background: theme.palette.primary[50],
+                    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(./img/super-earth.png)`,
+                    backgroundSize: 'cover',
                 }}
             >
                 <Outlet />

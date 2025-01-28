@@ -9,37 +9,46 @@ import Link from 'components/core/Link';
 import authActions from 'actions/authActions';
 import { useNavigate } from 'react-router-dom';
 
-
-const Login = () => {
+const Signup = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isLoading = useSelector(({ auth }) => auth.isAuthorizing);
-  const [credentials, setCredentials] = useState({ username: '', password: '' });
+  const isLoading = useSelector(({ auth }) => auth.isCreatingUser);
+  const [formData, setFormData] = useState({
+    email: '',
+    gamerTag: '',
+    password: '',
+    confirmPassword: ''
+  });
   const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
-    
+
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
     try {
-      await dispatch(authActions.login(credentials.username, credentials.password));
+      await dispatch(authActions.createUser({
+        email: formData.email,
+        gamerTag: formData.gamerTag,
+        password: formData.password
+      }));
+      navigate('/login');
     } catch (err) {
       const errorText = err.message || String(err);
       
-      if (errorText.includes('Your account is locked due to multiple failed login attempts.')) {
-        const minutesRemaining = errorText.match(/\d+/)[0];
-        if (minutesRemaining > 1) {
-          setError(`Your account is locked due to multiple failed login attempts. Please try again after ${minutesRemaining} minutes`);
-        } else {
-          setError(`Your account is locked due to multiple failed login attempts. Please try again after ${minutesRemaining} minute`);
-        }
-      } else if (errorText.includes('Invalid')) {
-        setError('Invalid username or password');
+      if (errorText.includes('email')) {
+        setError('Email is already in use');
+      } else if (errorText.includes('gamer')) {
+        setError('Gamer tag is already taken');
       } else {
         setError('An error occurred. Please try again later');
       }
     }
-  }
+  };
 
   return (
     <Sheet 
@@ -73,11 +82,22 @@ const Login = () => {
           <form onSubmit={handleSubmit} style={{ width: '100%' }}>
             <Stack spacing={4} alignItems="center">
               <Input
-                placeholder="Username"
-                value={credentials.username}
-                onChange={(value) => setCredentials({
-                  ...credentials,
-                  username: value
+                placeholder="Email"
+                type="email"
+                value={formData.email}
+                onChange={(value) => setFormData({
+                  ...formData,
+                  email: value
+                })}
+                sx={{ width: '100%' }}
+              />
+
+              <Input
+                placeholder="Gamer Tag"
+                value={formData.gamerTag}
+                onChange={(value) => setFormData({
+                  ...formData,
+                  gamerTag: value
                 })}
                 sx={{ width: '100%' }}
               />
@@ -85,10 +105,21 @@ const Login = () => {
               <Input
                 type="password"
                 placeholder="Password"
-                value={credentials.password}
-                onChange={(value) => setCredentials({
-                  ...credentials,
+                value={formData.password}
+                onChange={(value) => setFormData({
+                  ...formData,
                   password: value
+                })}
+                sx={{ width: '100%' }}
+              />
+
+              <Input
+                type="password"
+                placeholder="Confirm Password"
+                value={formData.confirmPassword}
+                onChange={(value) => setFormData({
+                  ...formData,
+                  confirmPassword: value
                 })}
                 sx={{ width: '100%' }}
               />
@@ -100,19 +131,19 @@ const Login = () => {
                 disabled={isLoading}
                 sx={{ width: '100%' }}
               >
-                {isLoading ? 'LOGGING IN...' : 'LOGIN'}
+                {isLoading ? 'CREATING ACCOUNT...' : 'SIGN UP'}
               </Button>
               
               <Link 
                 onClick={(e) => {
                   e.preventDefault();
-                  navigate('/forgot-password');
+                  navigate('/');
                 }} 
                 component="button" 
                 variant="plain" 
                 size="sm"
               >
-                Forgot password?
+                Already have an account? Login
               </Link>
             </Stack>
           </form>
@@ -122,4 +153,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;

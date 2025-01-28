@@ -23,6 +23,7 @@ const Input = ({ label, type, placeholder, value, error, disabled, required, onC
                 return (
                     <JoyInput
                         {...props}
+                        sx={{ background: 'none' }}
                         type={type}
                         placeholder={placeholder}
                         value={value}

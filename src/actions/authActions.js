@@ -34,10 +34,26 @@ const me = () => {
     };
 };
 
-const createUser = ({email, firstName, lastName}) => {
+const createUser = ({email, gamerTag, password}) => {
     return {
         type: 'CREATE_USER',
-        payload: Parse.Cloud.run('createUser', {email, firstName, lastName}),
+        payload: (async () => {
+            const user = new Parse.User();
+            user.set('username', email);
+            user.set('email', email);
+            user.set('password', password);
+            
+            await user.signUp();
+            
+            const Profile = Parse.Object.extend('Profile');
+            const profile = new Profile();
+            profile.set('user', user);
+            profile.set('gamerTag', gamerTag);
+            
+            await profile.save();
+            
+            return user;
+        })()
     };
 };
 
