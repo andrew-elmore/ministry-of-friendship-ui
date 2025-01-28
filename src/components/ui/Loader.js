@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import ProcessingOverlay from "components/core/ProcessingOverlay";
 import authActions from "actions/authActions";
 import profileActions from "actions/profileActions";
+import preferenceActions from 'actions/preferenceActions';
 
 const Loader = () => {
     const dispatch = useDispatch();
@@ -12,6 +13,7 @@ const Loader = () => {
 
     const isAuthorizing = useSelector(({ auth }) => auth.isAuthorizing);
     const isProfileLoading = useSelector(({ profile }) => profile.isLoading);
+    const profile = useSelector(({ profile }) => profile.me);
     const isLoading = isAuthorizing || isProfileLoading;
 
     /*** Manage Authorization & Profile ***/
@@ -22,6 +24,12 @@ const Loader = () => {
     useEffect(() => {
         dispatch(authActions.me());
     }, []);
+
+    useEffect(() => {
+        if (profile?.id) {
+            dispatch(preferenceActions.get(profile?.preference?.id))
+        }
+    }, [profile])
 
     useEffect( () => {
         if (isAuthorized) {

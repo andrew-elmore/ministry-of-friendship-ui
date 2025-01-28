@@ -1,5 +1,6 @@
 import BasicDomain from "./BasicDomain";
 import * as yup from 'yup';
+import Preference from "./Preference";
 
 export default class Profile extends BasicDomain {
 
@@ -16,26 +17,15 @@ export default class Profile extends BasicDomain {
         [Profile.STATUS_ACTIVE]: 'Active',
         [Profile.STATUS_INACTIVE]: 'Inactive',
     }
-
-    static TYPE_ADMIN = 'ADMIN';
-    static TYPE_USER = 'USER';
-
-    static TYPES = [
-        Profile.TYPE_ADMIN,
-        Profile.TYPE_USER,
-    ]
-
  
     static DEFAULTS = {
-        firstName: '',
-        lastName: '',
+        gamerTag: '',
+        preference: new Preference(),
         status: Profile.STATUS_ACTIVE,
-        type: Profile.TYPE_USER
     }
 
     static VALIDATION_SCHEMA = yup.object({
-        lastName: yup.string().required('Last Name/Initial is required'),
-        firstName: yup.string().required('First Name is required'),
+        gamerTag: yup.string().required('Gamer Tag is required'),
         type: yup.string().required('Type is required'),
     }).required();
 

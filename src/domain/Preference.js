@@ -63,7 +63,7 @@ export default class Preference extends BasicDomain {
     }).required();
 
     constructor(props) {
-        super('Preference', props, props.type === Preference.SQUAD ? Preference.SQUAD_DEFAULTS : Preference.PERSONAL_DEFAULTS);
+        super('Preference', props, props?.type === Preference.SQUAD ? Preference.SQUAD_DEFAULTS : Preference.PERSONAL_DEFAULTS);
     }
 
 

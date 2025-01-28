@@ -44,9 +44,6 @@ export default function profileReducer(state = initState, action) {
             }
         }
 
-        case 'CREATE_CHILD_USER_FULFILLED':
-            return { ...state, me: new Profile(payload.myProfile), isLoading: false, hasFailed: false };
-            
         default: {
             return state;
         }

@@ -24,13 +24,26 @@ const set = (profile, isMyProfile = false) => {
 };
 
 const save = (profile, isMyProfile = false) => {
-    return {
-        type: 'SAVE_PROFILE',
-        meta: { profile, isMyProfile },
-        payload: profile.save(),
+    return async (dispatch) => {
+        try {
+            const preference = await profile.preference.save();
+            
+            profile.set('preference', preference);
+            
+            const savedProfile = await profile.save();
+            
+            dispatch({
+                type: 'SAVE_PROFILE',
+                meta: { profile: savedProfile, isMyProfile },
+                payload: savedProfile,
+            });
+            
+            return savedProfile;
+        } catch (error) {
+            throw error;
+        }
     };
 };
-
 const clear = () => ({
     type: `CLEAR_PROFILE`,
     meta: {},
