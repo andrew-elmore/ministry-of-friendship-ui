@@ -43,7 +43,8 @@
     "redux-thunk": "^2.4.2",
     "webpack": "latest",
     "webpack-cli": "latest",
-    "webpack-node-externals": "^3.0.0"
+    "webpack-node-externals": "^3.0.0",
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.23.3",

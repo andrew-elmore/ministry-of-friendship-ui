@@ -4,10 +4,14 @@ import thunk from 'redux-thunk';
 import promise from 'redux-promise-middleware';
 
 import app from './appReducer';
+import auth from './authReducer';
+import profile from './profileReducer';
 
 const createAppStore = (initialState = {}) => {
     const reducer =  combineReducers({
         app,
+        auth,
+        profile
     });
 
     const middleware = applyMiddleware(promise, thunk, createLogger());

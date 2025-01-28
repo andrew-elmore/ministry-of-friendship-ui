@@ -9,7 +9,10 @@ import {initialize} from 'utils/ParseUtils';
 import createAppStore from './store';
 import theme from './theme';
 
+import Layout from "./components/ui/Layout";
+import Authorize from "./components/ui/Authorize";
 import Dashboard from 'views/Dashboard';
+
 
 
 initialize();
@@ -22,7 +25,13 @@ root.render(
             <CssBaseline />
             <BrowserRouter>
                 <Routes>
-                    <Route exact path="/" element={<Dashboard/>} />
+                    <Route element={<Layout />}>
+                        {/* <Route exact path="/forgot-password" element={<ForgotPassword />} /> */}
+                        <Route element={<Authorize />}>
+                            <Route exact path="/" element={<Dashboard />} />
+                        </Route>
+                        {/* <Route path="*" element={<NotFound />} /> */}
+                    </Route>
                 </Routes>
             </BrowserRouter>
         </CssVarsProvider>
