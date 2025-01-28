@@ -8,24 +8,11 @@ import EnemySelect from 'components/Preference/Inputs/EnemySelect';
 import MicSelect from 'components/Preference/Inputs/MicSelect';
 import ObjectiveSelect from 'components/Preference/Inputs/ObjectiveSelect';
 
-const squadTypeDefaults = {
-    difficulty: [0, 9],
-    enemy: 'BUGS',
-    mic: 'OPEN',
-    objective: 'MAJORORDER',
-    type: 'SQUAD'
-}
+import { Preference } from 'domain';
 
-const personalTypeDefaults = {
-    difficulty: [0, 9],
-    enemy: ['BUGS', 'BOTS', 'SQUIDS'],
-    mic: ['OPEN', 'PUSH', 'OFF'],
-    objective: ['MAJORORDER', 'MEDALS', 'SAMPLES'],
-    type: 'PERSONAL'
-}
 
 const PreferenceForm = ({type}) => {
-    const defaults = type === 'SQUAD' ? squadTypeDefaults : personalTypeDefaults;
+    const defaults = type === Preference.SQUAD ? Preference.SQUAD_DEFAULTS : Preference.PERSONAL_DEFAULTS;
     const [difficulty, setDifficulty] = React.useState(defaults.difficulty);
     const [enemy, setEnemy] = React.useState(defaults.enemy);
     const [mic, setMic] = React.useState(defaults.mic);
@@ -79,7 +66,7 @@ PreferenceForm.PropTypes = {
 }
 
 PreferenceForm.defaultProps = {
-    type: 'SQUAD'
+    type: Preference.SQUAD
 }
 
 export default PreferenceForm;

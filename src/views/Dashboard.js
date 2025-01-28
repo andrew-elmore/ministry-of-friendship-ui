@@ -7,7 +7,9 @@ import PreferenceForm from 'components/Preference/PreferenceForm';
 const Dashboard = () => {
 
     return (
-        <PreferenceForm />
+        <PreferenceForm 
+            type="PERSONAL"
+        />
     );
 }
 
