@@ -63,12 +63,11 @@ const EnemySelect = ({
 }
 
 EnemySelect.PropTypes = {
-    value: PropTypes.array,
+    value: PropTypes.any.isRequired,
     onChange: PropTypes.func
 }
 
 EnemySelect.defaultProps = {
-    value: 'PUSH',
     onChange: () => {}
 }
 
