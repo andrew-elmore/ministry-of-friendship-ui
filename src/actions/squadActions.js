@@ -10,48 +10,60 @@ const get = (squadId) => {
 };
 
 const list = (filters = {}) => {
-    const query = new Parse.Query(Squad);
-    
-    if (filters.code) {
-        query.equalTo('code', filters.code);
-    }
-    
-    if (filters.host) {
-        query.equalTo('host', filters.host);
-    }
-    
     if (filters.preference) {
-        query.include('preference');
-        const preference = filters.preference;
+        const prefQuery = new Parse.Query(Preference);
+        prefQuery.equalTo('type', 'SQUAD');
         
-        query.find().then(squads => {
-            return squads.filter(squad => {
-                const squadPref = squad.get('preference');
+        return {
+            type: 'LIST_SQUAD',
+            meta: { filters },
+            payload: prefQuery.find().then(preferences => {
                 
-                const hasDifficultyOverlap = squadPref.difficulty.some(d => 
-                    preference.difficulty.includes(d)
-                );
+                const matchingPrefs = preferences.filter(squadPref => {
+                    
+                    const hasDifficultyOverlap = squadPref.get('difficulty').every(d => 
+                        filters.preference.difficulty.includes(d)
+                    );
+
+                    const hasEnemyOverlap = squadPref.get('enemy').every(e =>
+                        filters.preference.enemy.includes(e)
+                    );
+                    
+                    const hasMicOverlap = squadPref.get('mic').every(m => 
+                        filters.preference.mic.includes(m)
+                    );
+                    
+                    const hasObjectiveOverlap = squadPref.get('objective').every(o => 
+                        filters.preference.objective.includes(o)
+                    );
+                    
+                    const matches = hasDifficultyOverlap && hasEnemyOverlap && 
+                                  hasMicOverlap && hasObjectiveOverlap;
+                    return matches;
+                });
+
+                const squadQuery = new Parse.Query(Squad);
+                squadQuery.containedIn('preference', matchingPrefs);
                 
-                const hasAllEnemies = preference.enemy.every(e => 
-                    squadPref.enemy.includes(e)
-                );
+                if (filters.code) {
+                    squadQuery.equalTo('code', filters.code);
+                }
                 
-                const hasMicOverlap = squadPref.mic.some(m => 
-                    preference.mic.includes(m)
-                );
+                if (filters.host) {
+                    squadQuery.equalTo('host', filters.host);
+                }
                 
-                const hasAllObjectives = preference.objective.every(o => 
-                    squadPref.objective.includes(o)
-                );
-                
-                return hasDifficultyOverlap && 
-                       hasAllEnemies && 
-                       hasMicOverlap && 
-                       hasAllObjectives;
-            });
-        });
+                return squadQuery.find().then(squads => {
+                    return squads;
+                });
+            })
+        };
     }
 
+    const query = new Parse.Query(Squad);
+    if (filters.code) query.equalTo('code', filters.code);
+    if (filters.host) query.equalTo('host', filters.host);
+    
     return {
         type: 'LIST_SQUAD',
         meta: { filters },
