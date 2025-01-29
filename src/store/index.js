@@ -7,13 +7,15 @@ import app from './appReducer';
 import auth from './authReducer';
 import profile from './profileReducer';
 import preference from './preferenceReducer';
+import squad from './squadReducer';
 
 const createAppStore = (initialState = {}) => {
     const reducer =  combineReducers({
         app,
         auth,
         profile,
-        preference
+        preference,
+        squad
     });
 
     const middleware = applyMiddleware(promise, thunk, createLogger());

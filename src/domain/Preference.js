@@ -44,9 +44,9 @@ export default class Preference extends BasicDomain {
     
     static SQUAD_DEFAULTS = {
         difficulty: [0, 9],
-        enemy: Preference.BUGS,
-        mic: Preference.OPEN,
-        objective: Preference.MAJORORDER,
+        enemy: Preference.ENEMIES,
+        mic: Preference.MICS,
+        objective: Preference.OBJECTIVES,
         type: Preference.SQUAD,
     }
 
