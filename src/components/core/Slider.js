@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import Sheet from "./Sheet"
 
 const Switch = ({ label, ...props }) => (
-    <Sheet sx={{background: 'none', paddingLeft: 8, paddingRight: 8, paddingBottom: 4, paddingTop: 4}}>
+    <Sheet sx={{background: 'none', paddingLeft: 1, paddingRight: 1, paddingBottom: 1, paddingTop: 2}}>
         <JoySlider sx={{ 
             ...props.sx, 
             width: '100%',

@@ -70,7 +70,7 @@ const theme = extendTheme({
                     base: "#FDFDFD",
                 },
                 text: {
-                    primary: "#070707",
+                    primary: "#FEDB1F",
                     secondary: "#464F60",
                     tertiary: "#687182",
                 },
@@ -82,51 +82,62 @@ const theme = extendTheme({
             fontFamily: 'Liberation Serif',
             fontSize: '60px',
             fontWeight: 'bold',
+            color: 'var(--joy-palette-text-primary)',
         },
         display2: {
             fontFamily: 'Liberation Serif',
             fontSize: '48px',
             fontWeight: 'bold',
+            color: 'var(--joy-palette-text-primary)',
         },
         h1: {
             fontFamily: 'Liberation Serif',
             fontSize: '56px',
             fontWeight: 'bold',
+            color: 'var(--joy-palette-text-primary)',
         },
         h2: {
             fontFamily: 'Liberation Serif',
             fontSize: '44px',
+            color: 'var(--joy-palette-text-primary)',
         },
         h3: {
             fontFamily: 'Liberation Serif',
             fontSize: '32px',
+            color: 'var(--joy-palette-text-primary)',
+
         },
         h4: {
             fontFamily: 'Liberation Serif',
             fontSize: '24px',
-            color: 'var(--joy-palette-text-tertiary)',
+            color: 'var(--joy-palette-text-primary)',
         },
         bodyLg: {
             fontFamily: 'Liberation Serif',
             fontSize: '24px',
             fontWeight: 'regular',
             lineHeight: '1.25',
+            color: 'white',
+
         },
         body1: {
             fontFamily: 'Liberation Serif',
             fontSize: '16px',
             fontWeight: 'regular',
-            color: 'black',
+            color: 'var(--joy-palette-text-primary)',
         },
         body2: {
             fontFamily: 'Liberation Serif',
             fontSize: '16px',
             fontWeight: 'regular',
+            color: 'white',
+
         },
         button: {
             fontFamily: 'Liberation Serif',
             fontSize: '16px',
             fontWeight: 'medium',
+            color: 'white',
         },
     },
     components: {

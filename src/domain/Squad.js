@@ -7,7 +7,9 @@ export default class Squad extends BasicDomain {
         code: null,
         preference: null,
         host: null,
-        players: [],
+        guestOne: null,
+        guestTwo: null,
+        guestThree: null,
     }
 
     static VALIDATION_SCHEMA = yup.object({

@@ -41,15 +41,13 @@ const EnemySelect = ({
             onChange={(event, newValue) => {
                 onChange(newValue);
             }}
-            color='secondary'
+            variant="outlined"
         >
             {options.map((option, idx) => (
                 <Tooltip title={option.label} key={`${option.value}-${idx}`}>
                     <Button 
                         key={`${option.value}-${idx}`}
-                        value={option.value}
-                        variant="solid"
-                        
+                        value={option.value}                        
                     >
                         <Stack alignItems="center">
                             {option.icon}

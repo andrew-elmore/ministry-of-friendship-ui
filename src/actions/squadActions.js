@@ -14,53 +14,37 @@ const list = (filters = {}) => {
         const prefQuery = new Parse.Query(Preference);
         prefQuery.equalTo('type', 'SQUAD');
         
+        prefQuery.containedIn('difficulty', filters.preference.difficulty);
+        prefQuery.containedIn('enemy', filters.preference.enemy);
+        prefQuery.containedIn('mic', filters.preference.mic);
+        prefQuery.containedIn('objective', filters.preference.objective);
+        
         return {
             type: 'LIST_SQUAD',
             meta: { filters },
             payload: prefQuery.find().then(preferences => {
-                
-                const matchingPrefs = preferences.filter(squadPref => {
-                    
-                    const hasDifficultyOverlap = squadPref.get('difficulty').every(d => 
-                        filters.preference.difficulty.includes(d)
-                    );
-
-                    const hasEnemyOverlap = squadPref.get('enemy').every(e =>
-                        filters.preference.enemy.includes(e)
-                    );
-                    
-                    const hasMicOverlap = squadPref.get('mic').every(m => 
-                        filters.preference.mic.includes(m)
-                    );
-                    
-                    const hasObjectiveOverlap = squadPref.get('objective').every(o => 
-                        filters.preference.objective.includes(o)
-                    );
-                    
-                    const matches = hasDifficultyOverlap && hasEnemyOverlap && 
-                                  hasMicOverlap && hasObjectiveOverlap;
-                    return matches;
-                });
-
                 const squadQuery = new Parse.Query(Squad);
-                squadQuery.containedIn('preference', matchingPrefs);
+                squadQuery.containedIn('preference', preferences);
+                squadQuery.equalTo('guestThree', null);
                 
-                if (filters.code) {
-                    squadQuery.equalTo('code', filters.code);
-                }
-                
-                if (filters.host) {
-                    squadQuery.equalTo('host', filters.host);
-                }
-                
-                return squadQuery.find().then(squads => {
-                    return squads;
+                ['host', 'guestOne', 'guestTwo', 'guestThree'].forEach(field => {
+                    squadQuery.include(field);
                 });
+                
+                if (filters.code) squadQuery.equalTo('code', filters.code);
+                if (filters.host) squadQuery.equalTo('host', filters.host);
+                
+                return squadQuery.find();
             })
         };
     }
 
     const query = new Parse.Query(Squad);
+    
+    ['host', 'guestOne', 'guestTwo', 'guestThree'].forEach(field => {
+        query.include(field);
+    });
+    
     if (filters.code) query.equalTo('code', filters.code);
     if (filters.host) query.equalTo('host', filters.host);
     

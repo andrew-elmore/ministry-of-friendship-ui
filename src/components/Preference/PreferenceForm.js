@@ -16,14 +16,14 @@ const PreferenceForm = ({preference, onChange}) => {
         onChange({key, value});
     }
     return (
-        <Grid container>
-            <Grid item xs={12}>
+        <Grid container spacing={2}>
+            <Grid item xs={12} md={12}>
                 <DifficultySlider
                     value={preference.difficulty}
                     onChange={(value) => handleChange({key: 'difficulty', value})}
                 />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12} md={4}>
                 <Stack alignItems="center" width="100%">
                     <EnemySelect
                         value={preference.enemy}
@@ -31,7 +31,7 @@ const PreferenceForm = ({preference, onChange}) => {
                     />
                 </Stack>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12} md={4}>
                 <Stack alignItems="center" width="100%">
                     <MicSelect
                         value={preference.mic}
@@ -39,7 +39,7 @@ const PreferenceForm = ({preference, onChange}) => {
                     />
                 </Stack>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12} md={4}>
                 <Stack alignItems="center" width="100%">
                     <ObjectiveSelect
                         value={preference.objective}
