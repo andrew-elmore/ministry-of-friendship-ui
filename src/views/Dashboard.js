@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import preferenceActions from 'actions/preferenceActions';
 import squadActions from 'actions/squadActions';
@@ -8,10 +9,11 @@ import Stack from 'components/core/Stack';
 import Button from 'components/core/Button';
 
 import PreferenceForm from 'components/Preference/PreferenceForm';
-import SquadCard from 'components/Preference/SquadCard';
+import SquadCard from 'components/Squad/SquadCard';
 import { Preference } from 'domain';
 
 const Dashboard = () => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const preference = useSelector(({ preference }) => preference.current);
     const squads = useSelector(({ squad }) => squad.list);
@@ -32,13 +34,18 @@ const Dashboard = () => {
         dispatch(preferenceActions.save(newPreference));
     }
 
+    const handleStartSquad = () => {
+        navigate('/squad/add');
+    }
+
+
     return (
         <Stack spacing={2} sx={{ height: '100vh' }}>
             <PreferenceForm 
                 preference={preference}
                 onChange={handleSavePreference}
             />
-            <Button>Start A Squad</Button>
+            <Button onClick={handleStartSquad}>Start A Squad</Button>
             <Stack 
                 spacing={2} 
                 sx={{ 

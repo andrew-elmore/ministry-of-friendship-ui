@@ -13,7 +13,7 @@ import Layout from "./components/ui/Layout";
 import Authorize from "./components/ui/Authorize";
 import Dashboard from 'views/Dashboard';
 import Signup from 'views/Signup';
-
+import SquadAdd from 'views/SquadAdd';
 
 initialize();
 const store = createAppStore();
@@ -30,6 +30,7 @@ root.render(
                         <Route exact path="/signup" element={<Signup />} />
                         <Route element={<Authorize />}>
                             <Route exact path="/" element={<Dashboard />} />
+                            <Route exact path="/squad/add" element={<SquadAdd />} />
                         </Route>
                         {/* <Route path="*" element={<NotFound />} /> */}
                     </Route>

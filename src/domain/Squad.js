@@ -1,11 +1,13 @@
 import BasicDomain from "./BasicDomain";
 import * as yup from 'yup';
 
+import Preference from "./Preference";
+
 export default class Squad extends BasicDomain {
 
     static DEFAULTS = {
         code: null,
-        preference: null,
+        preference: new Preference(),
         host: null,
         guestOne: null,
         guestTwo: null,

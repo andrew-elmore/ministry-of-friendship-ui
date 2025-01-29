@@ -6,7 +6,7 @@ import Typography from 'components/core/Typography';
 import Stack from 'components/core/Stack';
 import Button from 'components/core/Button';
 
-import PreferenceDisplay from './PreferenceDisplay';
+import PreferenceDisplay from '../Preference/PreferenceDisplay';
 
 const SquadCard = ({ squad }) => {
 
