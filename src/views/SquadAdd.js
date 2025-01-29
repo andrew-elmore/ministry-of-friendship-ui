@@ -37,7 +37,6 @@ const SquadAdd = () => {
     }
 
     const handleChangeSquad = ({key, value}) => {
-        console.log(key, value);
         const newSquad = new Squad();
         newSquad.set('code', squad.code);
         newSquad.set('preference', squad.preference);
