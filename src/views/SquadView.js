@@ -18,8 +18,8 @@ const SquadView = () => {
     const dispatch = useDispatch();
     const squad = useSelector(({ squad }) => squad.current);
     const profile = useSelector(({ profile }) => profile.me);
+    const openProfile = useSelector(({ profile }) => profile.open);
 
-    
     if (!squad || !profile) return null;
 
     const isHost = squad.get('host')?.id === profile.id;
@@ -29,7 +29,7 @@ const SquadView = () => {
         if (isHost) {
             dispatch(squadActions.remove(squad.id));
         } else {
-            dispatch(squadActions.leaveSquad(squad.id, profile.id));
+            dispatch(squadActions.leaveSquad(squad.id, profile.id, openProfile.id));
         }
     }
 

@@ -75,6 +75,15 @@ const getClassified = () => {
         payload: query.first(),
     };
 };
+const getOpen = () => {
+    const query = new Parse.Query(Profile)
+        .select(PROFILE_FIELDS);
+    query.equalTo('gamerTag', 'OPEN');
+    return {
+        type: 'GET_OPEN',
+        payload: query.first(),
+    };
+};
 
 export default {
     get,
@@ -82,5 +91,6 @@ export default {
     save,
     clear,
     me,
-    getClassified
+    getClassified,
+    getOpen
 };

@@ -19,19 +19,36 @@ const Loader = () => {
     const isLoading = isAuthorizing || isProfileLoading;
 
     const setupSquadLiveQuery = async (profileId) => {
-        const squadQuery = new Parse.Query('Squad');
-        squadQuery.equalTo('host', CommonUtils.createPointer('Profile', profileId));
+        const profileQuery = new Parse.Query('Profile');
+        profileQuery.equalTo('objectId', profileId);
+        const profile = await profileQuery.first();
+        
+        if (!profile) return;
+    
+        const queries = [
+            new Parse.Query('Squad').equalTo('host', profile)
+        ];
+    
+        ['guestOne', 'guestTwo', 'guestThree'].forEach(guestField => {
+            const query = new Parse.Query('Squad');
+            query.exists(guestField);
+            query.equalTo(guestField, profile);
+            queries.push(query);
+        });
+    
+        const squadQuery = Parse.Query.or(...queries);
         squadQuery.include('host');
         squadQuery.include('guestOne');
         squadQuery.include('guestTwo');
         squadQuery.include('guestThree');
+        
         const subscription = await squadQuery.subscribe();
-
+    
         subscription.on('update', (object) => {
             console.log(':~: Squad updated', object);
             dispatch(squadActions.updateSquad(object));
         });
-
+    
         return () => subscription.unsubscribe();
     };
 
@@ -48,6 +65,7 @@ const Loader = () => {
             dispatch(preferenceActions.get(profile?.preference?.id))
             dispatch(squadActions.getMySquad(profile?.id))
             dispatch(profileActions.getClassified())
+            dispatch(profileActions.getOpen())
             
             const cleanup = setupSquadLiveQuery(profile.id);
             return () => {

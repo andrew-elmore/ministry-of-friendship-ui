@@ -44,7 +44,6 @@ const list = (filters = {}) => {
             payload: prefQuery.find().then(preferences => {
                 const squadQuery = new Parse.Query(Squad);
                 squadQuery.containedIn('preference', preferences);
-                squadQuery.equalTo('guestThree', null);
                 
                 ['host', 'guestOne', 'guestTwo', 'guestThree'].forEach(field => {
                     squadQuery.include(field);
@@ -93,7 +92,7 @@ const save = (squad) => {
     };
 };
 
-const leaveSquad = (squadId, personId) => {
+const leaveSquad = (squadId, personId, openSquadId) => {
     return async (dispatch) => {
         const query = new Parse.Query(Squad);
         const squad = await query.get(squadId);
@@ -101,7 +100,7 @@ const leaveSquad = (squadId, personId) => {
 
         for (let i = 0; i < guests.length; i++) {
             if (squad.get(guests[i])?.id === personId) {
-                squad.set(guests[i], null);
+                squad.set(guests[i], CommonUtils.createPointer('Profile', openSquadId));
                 break;
             }
         }
@@ -130,21 +129,23 @@ const remove = (squadId) => {
 const joinSquad = (profileId, squadId) => {
     return async (dispatch) => {
         const query = new Parse.Query(Squad);
+        query.include(['host', 'guestOne', 'guestTwo', 'guestThree']);
         const squad = await query.get(squadId);
-        
-        const guests = ['guestOne', 'guestTwo', 'guestThree'];
-        let didJoin = false;
-        for (let i = 0; i < guests.length; i++) {
-            console.log(':~: guests[i]', squad.get(guests[i]));
-            if (squad.get(guests[i]) === null) {
-                squad.set(guests[i], CommonUtils.createPointer('Profile', profileId));
-                didJoin = true;
-                break;
-            }
-        }
-        
-        if (!didJoin) {
+        const hasSpace = ['guestOne', 'guestTwo', 'guestThree'].some(field => {
+            const gamerTag = squad.get(field).get('gamerTag')
+            return gamerTag === 'OPEN';
+        });
+
+        if (!hasSpace) {
             throw new Error('Squad is full');
+        } else {
+            const guests = ['guestOne', 'guestTwo', 'guestThree'];
+            for (let i = 0; i < guests.length; i++) {
+                if (squad.get(guests[i])?.get('gamerTag') === 'OPEN') {
+                    squad.set(guests[i], CommonUtils.createPointer('Profile', profileId));
+                    break;
+                }
+            }
         }
 
         dispatch({

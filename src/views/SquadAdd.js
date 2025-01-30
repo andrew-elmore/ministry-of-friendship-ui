@@ -17,6 +17,7 @@ const SquadAdd = () => {
     const personalPreference = useSelector(({ preference }) => preference.current);
     const profile = useSelector(({ profile }) => profile.me);
     const classifiedProfile = useSelector(({ profile }) => profile.classified);
+    const openProfile = useSelector(({ profile }) => profile.open);
     const [squad, setSquad] = React.useState(new Squad());
     const [errors, setErrors] = React.useState({});
 
@@ -68,7 +69,7 @@ const SquadAdd = () => {
             return (
                 <Button 
                     sx={{width: '100%'}}
-                    onClick={() => handleChangeSquad({key: guestSlotId, value: null})}
+                    onClick={() => handleChangeSquad({key: guestSlotId, value: {id: openProfile.id}})}
                 >
                     CLASSIFIED
                 </Button>
@@ -94,12 +95,12 @@ const SquadAdd = () => {
         squadToSave.set('code', squad.code);
         squadToSave.set('preference', preferenceResult.value);
         squadToSave.set('host', squad.host);
-        squadToSave.set('guestOne', squad.guestOne);
-        squadToSave.set('guestTwo', squad.guestTwo);
-        squadToSave.set('guestThree', squad.guestThree);
+        squadToSave.set('guestOne', squad.guestOne || {id: openProfile.id});
+        squadToSave.set('guestTwo', squad.guestTwo || {id: openProfile.id});
+        squadToSave.set('guestThree', squad.guestThree || {id: openProfile.id});
 
         await dispatch(squadActions.save(squadToSave));
-        dispatch(squadActions.getMySquad(profile?.id))
+        // dispatch(squadActions.getMySquad(profile?.id))
     }
     
     return (

@@ -6,13 +6,14 @@ import HoldButton from 'components/core/HoldButton';
 
 const SquadMemberButton = ({ guestSlot, squadMember, onClick }) => {
     const classifiedProfile = useSelector(({ profile }) => profile.classified);
+    const openProfile = useSelector(({ profile }) => profile.open);
 
     if (!classifiedProfile) return null;
     const handleClick = ({key, value}) => {
         onClick({key, value});
     }
 
-    if (squadMember === null || squadMember === undefined) {
+    if (squadMember?.id === openProfile?.id) {
         return (
             <Button 
                 sx={{width: '100%'}}
@@ -26,7 +27,7 @@ const SquadMemberButton = ({ guestSlot, squadMember, onClick }) => {
         return (
             <HoldButton 
                 sx={{width: '100%'}}
-                onHold={() => handleClick({key: guestSlot, value: null})}
+                onHold={() => handleClick({key: guestSlot, value: {id: openProfile.id}})}
             >
                 CLASSIFIED
             </HoldButton>
@@ -35,7 +36,7 @@ const SquadMemberButton = ({ guestSlot, squadMember, onClick }) => {
         return (
             <HoldButton
                 sx={{width: '100%'}}
-                onHold={() => handleClick({key: guestSlot, value: null})}
+                onHold={() => handleClick({key: guestSlot, value: {id: openProfile.id}})}
             >
                 {squadMember?.gamerTag}
             </HoldButton>

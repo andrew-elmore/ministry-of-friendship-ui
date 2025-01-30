@@ -5,7 +5,8 @@ export const initState = {
     me: null,
     isLoading: false,
     hasFailed: false,
-    classified: null
+    classified: null,
+    open: null
 };
 
 export default function profileReducer(state = initState, action) {
@@ -49,6 +50,9 @@ export default function profileReducer(state = initState, action) {
 
         case 'GET_CLASSIFIED_FULFILLED': {
             return { ...state, classified: new Profile(payload), isLoading: false, hasFailed: false };
+        }
+        case 'GET_OPEN_FULFILLED': {
+            return { ...state, open: new Profile(payload), isLoading: false, hasFailed: false };
         }
 
         default: {
