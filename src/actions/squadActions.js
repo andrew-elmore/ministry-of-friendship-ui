@@ -12,16 +12,20 @@ const get = (squadId) => {
 
 const getMySquad = (profileId) => {
     const query = new Parse.Query(Squad);
+    const profilePointer = CommonUtils.createPointer('Profile', profileId);
 
-    query.equalTo('host', CommonUtils.createPointer('Profile', profileId));
-    query.include('host');
-    query.include('guestOne');
-    query.include('guestTwo');
-    query.include('guestThree');
-    query.include('preference');
+    const mainQuery = Parse.Query.or(
+        new Parse.Query(Squad).equalTo('host', profilePointer),
+        new Parse.Query(Squad).equalTo('guestOne', profilePointer),
+        new Parse.Query(Squad).equalTo('guestTwo', profilePointer),
+        new Parse.Query(Squad).equalTo('guestThree', profilePointer)
+    );
+
+    mainQuery.include(['host', 'guestOne', 'guestTwo', 'guestThree', 'preference']);
+
     return {
         type: 'GET_MY_SQUAD',
-        payload: query.first()
+        payload: mainQuery.first()
     };
 };
 
@@ -90,19 +94,28 @@ const save = (squad) => {
     };
 };
 
-const remove = (squadId) => {
-    const query = new Parse.Query(Squad);
-    
-    return query.get(squadId).then(squad => {
-        return {
+const leaveSquad = (squadId, personId) => {
+    return async (dispatch) => {
+        const query = new Parse.Query(Squad);
+        const squad = await query.get(squadId);
+        const guests = ['guestOne', 'guestTwo', 'guestThree'];
+
+        for (let i = 0; i < guests.length; i++) {
+            if (squad.get(guests[i])?.id === personId) {
+                squad.set(guests[i], null);
+                break;
+            }
+        }
+        
+        dispatch({
             type: 'DELETE_SQUAD',
             meta: { squadId },
-            payload: squad.destroy()
-        };
-    });
-};
+            payload: squad.save()
+        });
+    };
+}
 
-const leaveSquad = (squadId) => {
+const remove = (squadId) => {
     return async (dispatch) => {
         const query = new Parse.Query(Squad);
         const squad = await query.get(squadId);
@@ -115,11 +128,49 @@ const leaveSquad = (squadId) => {
     };
 }
 
+const joinSquad = (profileId, squadId) => {
+    return async (dispatch) => {
+        const query = new Parse.Query(Squad);
+        const squad = await query.get(squadId);
+        
+        const guests = ['guestOne', 'guestTwo', 'guestThree'];
+        let didJoin = false;
+        for (let i = 0; i < guests.length; i++) {
+            console.log(':~: guests[i]', squad.get(guests[i]));
+            if (squad.get(guests[i]) === null) {
+                squad.set(guests[i], CommonUtils.createPointer('Profile', profileId));
+                didJoin = true;
+                break;
+            }
+        }
+        
+        if (!didJoin) {
+            throw new Error('Squad is full');
+        }
+
+        dispatch({
+            type: 'JOIN_SQUAD',
+            meta: { squadId, profileId },
+            payload: squad.save()
+        });
+    };
+}
+
+const updateSquad = (squad) => {
+    return {
+        type: 'GET_MY_SQUAD',
+        meta: { squad },
+        payload: squad
+    };
+}
+
 export default {
     get,
     getMySquad,
     list,
     save,
     remove,
-    leaveSquad
+    leaveSquad,
+    joinSquad,
+    updateSquad
 };

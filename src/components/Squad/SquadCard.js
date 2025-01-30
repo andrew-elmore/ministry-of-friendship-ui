@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Card from 'components/core/Card';
 import Grid from 'components/core/Grid';
@@ -8,7 +9,15 @@ import Button from 'components/core/Button';
 
 import PreferenceDisplay from '../Preference/PreferenceDisplay';
 
+import squadActions from 'actions/squadActions';
+
 const SquadCard = ({ squad }) => {
+    const dispatch = useDispatch();
+    const profile = useSelector(({ profile }) => profile.me);
+
+    const joinSquad = () => {
+        dispatch(squadActions.joinSquad(profile.id, squad.id))
+    }
 
     const squadMemberCard = (memberSlot) => {
         const memberGamerTag = squad.get(memberSlot)?.get('gamerTag');
@@ -49,7 +58,7 @@ const SquadCard = ({ squad }) => {
                 <Grid item xs={12} md={6}>
                     <Stack spacing={{ xs: 4, md: 10 }} justifyContent="center" sx={{ height: '100%' }}>
                         <PreferenceDisplay preference={squad.get('preference')} />
-                        <Button>Join Squad</Button>
+                        <Button onClick={joinSquad}>Join Squad</Button>
                     </Stack>
                 </Grid>
             </Grid>

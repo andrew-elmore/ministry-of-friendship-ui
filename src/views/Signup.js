@@ -36,7 +36,7 @@ const Signup = () => {
         gamerTag: formData.gamerTag,
         password: formData.password
       }));
-      navigate('/login');
+      navigate('/');
     } catch (err) {
       const errorText = err.message || String(err);
       

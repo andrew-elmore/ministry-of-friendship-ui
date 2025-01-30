@@ -14,6 +14,8 @@
             "MASTER_KEY": "myMasterKey",
             "JAVASCRIPT_KEY": "myJSKey",
             "CLIENT_KEY": "myClientKey",
+            "LIVE_QUERY": "true",
+            "LIVE_QUERY_URL": "ws://localhost:1338/api",
           },
           "cwd": "${workspaceFolder}",
           "console": "integratedTerminal",
