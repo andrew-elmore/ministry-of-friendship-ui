@@ -34,6 +34,7 @@ export default function squadReducer(state = initState, action) {
             };
 
         case 'GET_SQUAD_FULFILLED':
+        case 'GET_MY_SQUAD':
         case 'GET_MY_SQUAD_FULFILLED':
             return {
                 ...state,

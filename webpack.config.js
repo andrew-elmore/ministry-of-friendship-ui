@@ -106,10 +106,11 @@ module.exports = {
     externals: {
         Config: JSON.stringify({
             appUrl: 'http://localhost:3000/',
-            apiUrl: 'http://localhost:1338/api',
-            wsUrl: 'ws://localhost:1338',
+            apiUrl: 'http://localhost:1337/api',
+            wsUrl: 'ws://localhost:1337',
             apiKey: 'myJSKey',
             apiId: 'myAppId',
+            liveQueryUrl: 'ws://localhost:1337/api',
         }),
     },
 };

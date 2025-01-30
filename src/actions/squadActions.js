@@ -11,21 +11,20 @@ const get = (squadId) => {
 };
 
 const getMySquad = (profileId) => {
-    const query = new Parse.Query(Squad);
     const profilePointer = CommonUtils.createPointer('Profile', profileId);
 
-    const mainQuery = Parse.Query.or(
+    const query = Parse.Query.or(
         new Parse.Query(Squad).equalTo('host', profilePointer),
         new Parse.Query(Squad).equalTo('guestOne', profilePointer),
         new Parse.Query(Squad).equalTo('guestTwo', profilePointer),
         new Parse.Query(Squad).equalTo('guestThree', profilePointer)
     );
 
-    mainQuery.include(['host', 'guestOne', 'guestTwo', 'guestThree', 'preference']);
+    query.include(['host', 'guestOne', 'guestTwo', 'guestThree', 'preference']);
 
     return {
         type: 'GET_MY_SQUAD',
-        payload: mainQuery.first()
+        payload: query.first()
     };
 };
 
