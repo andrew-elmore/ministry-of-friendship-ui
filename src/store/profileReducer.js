@@ -4,7 +4,8 @@ export const initState = {
     current: null,
     me: null,
     isLoading: false,
-    hasFailed: false
+    hasFailed: false,
+    classified: null
 };
 
 export default function profileReducer(state = initState, action) {
@@ -20,11 +21,13 @@ export default function profileReducer(state = initState, action) {
 
         case 'SET_PROFILE_PENDING':
         case 'GET_PROFILE_PENDING':
+        case 'GET_CLASSIFIED_PENDING':
         case 'RESTORE_PROFILE_PENDING': {
             return { ...state, isLoading: true, hasFailed: false };
         }
 
         case 'SET_PROFILE_REJECTED':
+        case 'GET_CLASSIFIED_REJECTED':
         case 'GET_PROFILE_REJECTED':{
             return { ...state, isLoading: false, hasFailed: true };
         }
@@ -42,6 +45,10 @@ export default function profileReducer(state = initState, action) {
             } else {
                 return { ...state, current: new Profile(payload), isLoading: false, hasFailed: false };
             }
+        }
+
+        case 'GET_CLASSIFIED_FULFILLED': {
+            return { ...state, classified: new Profile(payload), isLoading: false, hasFailed: false };
         }
 
         default: {

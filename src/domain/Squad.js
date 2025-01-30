@@ -15,7 +15,7 @@ export default class Squad extends BasicDomain {
     }
 
     static VALIDATION_SCHEMA = yup.object({
-        type: yup.string().required('Type is required'),
+        code: yup.string().required('Friend Code is required'),
     }).required();
 
     constructor(props) {
@@ -24,11 +24,11 @@ export default class Squad extends BasicDomain {
 
 
     isSavable = () => (
-      Preference.TYPES.includes(this.type)
+        this.get('code') !== null
     );
 
     inspect = () => {
-        return Preference.VALIDATION_SCHEMA.validate(this, { abortEarly: false });
+        return Squad.VALIDATION_SCHEMA.validate(this, { abortEarly: false });
     }
 }
 

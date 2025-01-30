@@ -7,13 +7,18 @@ import Button from 'components/core/Button';
 
 import PreferenceForm from 'components/Preference/PreferenceForm';
 
+import squadActions from 'actions/squadActions';
+import preferenceActions from 'actions/preferenceActions';
+
 import { Squad, Preference } from 'domain';
 
 const SquadAdd = () => {
     const dispatch = useDispatch();
     const personalPreference = useSelector(({ preference }) => preference.current);
     const profile = useSelector(({ profile }) => profile.me);
+    const classifiedProfile = useSelector(({ profile }) => profile.classified);
     const [squad, setSquad] = React.useState(new Squad());
+    const [errors, setErrors] = React.useState({});
 
     React.useEffect(() => {
         const newPreference = new Preference()
@@ -54,7 +59,7 @@ const SquadAdd = () => {
                 <Button 
                     sx={{width: '100%'}}
                     variant="outlined"
-                    onClick={() => handleChangeSquad({key: guestSlotId, value: "CLASSIFIED"})}
+                    onClick={() => handleChangeSquad({key: guestSlotId, value: {id: classifiedProfile.id}})}
                 >
                     OPEN
                 </Button>
@@ -71,20 +76,46 @@ const SquadAdd = () => {
         }
     }
 
+    const handleSubmit = async () => {
+        if (!squad.get('code')) {
+            setErrors({code: 'Friend Code is required'});
+            return;
+        }
+
+        const preferenceToSave = new Preference();
+        preferenceToSave.set('type', Preference.SQUAD);
+        preferenceToSave.set('enemy', squad.preference.enemy);
+        preferenceToSave.set('mic', squad.preference.mic);
+        preferenceToSave.set('objective', squad.preference.objective);
+        preferenceToSave.set('difficulty', squad.preference.difficulty);
+        const preferenceResult = await dispatch(preferenceActions.save(preferenceToSave));
+        const squadToSave = new Squad();
+        squadToSave.set('id', squad.id);
+        squadToSave.set('code', squad.code);
+        squadToSave.set('preference', preferenceResult.value);
+        squadToSave.set('host', squad.host);
+        squadToSave.set('guestOne', squad.guestOne);
+        squadToSave.set('guestTwo', squad.guestTwo);
+        squadToSave.set('guestThree', squad.guestThree);
+
+        await dispatch(squadActions.save(squadToSave));
+        dispatch(squadActions.getMySquad(profile?.id))
+    }
+    
     return (
         <Stack alignItems="center" justifyContent="center" spacing={4} sx={{ height: '100vh' }}>
-
             <PreferenceForm  preference={squad?.get('preference')} onChange={handleChangePreference}/>
             <Button sx={{width: '100%'}} disabled={true}>{profile?.get('gamerTag')}</Button>
             {squadGuestButton('guestOne')}
             {squadGuestButton('guestTwo')}
             {squadGuestButton('guestThree')}
             <Input
-                placeholder="Squad Code"
+                placeholder="Friend Code"
                 value={squad.get('code')}
                 onChange={(value) => handleChangeSquad({key: 'code', value})}
+                error={errors.code}
             />
-            <Button sx={{width: '100%'}}>Create Squad</Button>
+            <Button onClick={handleSubmit} sx={{width: '100%'}}>Create Squad</Button>
         </Stack>
     );
 }

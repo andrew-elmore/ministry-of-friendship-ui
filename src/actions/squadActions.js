@@ -1,4 +1,5 @@
 import { Squad, Preference } from 'domain';
+import CommonUtils from 'utils/CommonUtils.js';
 
 const get = (squadId) => {
     const query = new Parse.Query(Squad);
@@ -6,6 +7,21 @@ const get = (squadId) => {
         type: 'GET_SQUAD',
         meta: { squadId },
         payload: query.get(squadId)
+    };
+};
+
+const getMySquad = (profileId) => {
+    const query = new Parse.Query(Squad);
+
+    query.equalTo('host', CommonUtils.createPointer('Profile', profileId));
+    query.include('host');
+    query.include('guestOne');
+    query.include('guestTwo');
+    query.include('guestThree');
+    query.include('preference');
+    return {
+        type: 'GET_MY_SQUAD',
+        payload: query.first()
     };
 };
 
@@ -60,9 +76,12 @@ const save = (squad) => {
 
     squadToSave.set('id', squad.id);
     squadToSave.set('code', squad.code);
-    squadToSave.set('preference', squad.preference);
-    squadToSave.set('host', squad.host);
-    squadToSave.set('players', squad.players);
+    squadToSave.set('preference', CommonUtils.createPointer('Preference', squad.preference.id));
+    squadToSave.set('host', CommonUtils.createPointer('Profile', squad.host.id));
+    squadToSave.set('guestOne', squad.guestOne ? CommonUtils.createPointer('Profile', squad.guestOne.id) : null);
+    squadToSave.set('guestTwo', squad.guestTwo ? CommonUtils.createPointer('Profile', squad.guestTwo.id) : null);
+    squadToSave.set('guestThree', squad.guestThree ? CommonUtils.createPointer('Profile', squad.guestThree.id) : null);
+
 
     return {
         type: 'SAVE_SQUAD',
@@ -83,9 +102,24 @@ const remove = (squadId) => {
     });
 };
 
+const leaveSquad = (squadId) => {
+    return async (dispatch) => {
+        const query = new Parse.Query(Squad);
+        const squad = await query.get(squadId);
+        await squad.destroy();
+        
+        dispatch({
+            type: 'DELETE_SQUAD',
+            meta: { squadId }
+        });
+    };
+}
+
 export default {
     get,
+    getMySquad,
     list,
     save,
-    remove
+    remove,
+    leaveSquad
 };

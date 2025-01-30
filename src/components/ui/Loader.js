@@ -5,6 +5,7 @@ import ProcessingOverlay from "components/core/ProcessingOverlay";
 import authActions from "actions/authActions";
 import profileActions from "actions/profileActions";
 import preferenceActions from 'actions/preferenceActions';
+import squadActions from 'actions/squadActions';
 
 const Loader = () => {
     const dispatch = useDispatch();
@@ -28,6 +29,8 @@ const Loader = () => {
     useEffect(() => {
         if (profile?.id) {
             dispatch(preferenceActions.get(profile?.preference?.id))
+            dispatch(squadActions.getMySquad(profile?.id))
+            dispatch(profileActions.getClassified())
         }
     }, [profile])
 

@@ -102,7 +102,7 @@ const PreferenceDisplay = ({preference}) => {
                 <Stack alignItems="center" justifyContent="center" width="100%" direction="row" spacing={1}>
                     {difficulties.map((difficulty, idx) => {
 
-                        if (preference?.get('difficulty').includes(difficulty.value)) {
+                        if (preference?.get('difficulty')?.includes(difficulty.value)) {
                             return (
                                 <ImageComponent 
                                     key={`${difficulty.value}-${idx}`} 
@@ -132,7 +132,7 @@ const PreferenceDisplay = ({preference}) => {
             <Grid item xs={12} md={4}>
                 <Stack alignItems="center" justifyContent="center" width="100%" direction="row" spacing={5}>
                     {enemies.map((enemy, idx) => {
-                        if (preference?.get('enemy').includes(enemy.value)) {
+                        if (preference?.get('enemy')?.includes(enemy.value)) {
                             return (
                                 <ImageComponent 
                                     key={`${enemy.value}-${idx}`} 
@@ -152,7 +152,7 @@ const PreferenceDisplay = ({preference}) => {
             <Grid item xs={12} md={4}>
                 <Stack alignItems="center" justifyContent="center" width="100%" direction="row" spacing={5}>
                     {mics.map((mic, idx) => {
-                        if (preference?.get('mic').includes(mic.value)) {
+                        if (preference?.get('mic')?.includes(mic.value)) {
                             return (
                                 <Stack alignItems="center" key={`${mic.value}-${idx}`}>
                                     {mic.icon}
@@ -171,7 +171,7 @@ const PreferenceDisplay = ({preference}) => {
             <Grid item xs={12} md={4}>
                 <Stack alignItems="center" justifyContent="center" width="100%" direction="row" spacing={5}>
                     {objectives.map((objective, idx) => {
-                        if (preference?.get('objective').includes(objective.value)) {
+                        if (preference?.get('objective')?.includes(objective.value)) {
                             return (
                                 <Stack alignItems="center" key={`${objective.value}-${idx}`}>
                                     {objective.icon}

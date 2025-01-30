@@ -11,7 +11,7 @@ import ObjectiveSelect from 'components/Preference/Inputs/ObjectiveSelect';
 import { Preference } from 'domain';
 
 
-const PreferenceForm = ({preference, onChange}) => {
+const PreferenceForm = ({preference, onChange }) => {
     const handleChange = ({key, value}) => {
         onChange({key, value});
     }

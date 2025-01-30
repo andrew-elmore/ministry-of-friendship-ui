@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useTheme } from '@mui/material';
@@ -8,10 +8,12 @@ import Sheet from 'components/core/Sheet';
 import Loader from './Loader';
 import Notices from './Notices';
 
+import SquadView from 'views/SquadView';
 
 const Layout = () => {
     const theme = useTheme();
     const isAuthorized = useSelector(({ auth }) => auth.isAuthorized);
+    const mySquad = useSelector(({ squad }) => squad.current);
 
     if (!isAuthorized) {
         return (
@@ -22,6 +24,7 @@ const Layout = () => {
             </>
         )
     }
+
 
     return (
         <Stack direction="row" sx={{ height: '100vh', width: '100vw' }}>
@@ -34,7 +37,7 @@ const Layout = () => {
                     backgroundSize: 'cover',
                 }}
             >
-                <Outlet />
+                {mySquad ? <SquadView /> : <Outlet />}
             </Sheet>
             <Loader />
             <Notices />

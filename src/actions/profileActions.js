@@ -66,7 +66,15 @@ const me = (user) => {
     };
 };
 
-
+const getClassified = () => {
+    const query = new Parse.Query(Profile)
+        .select(PROFILE_FIELDS);
+    query.equalTo('gamerTag', 'CLASSIFIED');
+    return {
+        type: 'GET_CLASSIFIED',
+        payload: query.first(),
+    };
+};
 
 export default {
     get,
@@ -74,4 +82,5 @@ export default {
     save,
     clear,
     me,
+    getClassified
 };
