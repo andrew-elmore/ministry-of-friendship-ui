@@ -38,6 +38,13 @@ const Loader = () => {
             }
             dispatch(squadActions.updateSquad(object));
         });
+
+        subscription.on('create', () => {
+            dispatch(squadActions.getMySquad(profile.id));
+        })
+        subscription.on('delete', () => {
+            dispatch(squadActions.getMySquad(profile.id));
+        })
     
         return () => subscription.unsubscribe();
     };

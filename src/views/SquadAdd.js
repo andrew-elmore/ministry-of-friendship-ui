@@ -100,7 +100,7 @@ const SquadAdd = () => {
         squadToSave.set('guestThree', squad.guestThree || {id: openProfile.id});
 
         await dispatch(squadActions.save(squadToSave));
-        // dispatch(squadActions.getMySquad(profile?.id))
+        dispatch(squadActions.getMySquad(profile?.id))
     }
     
     return (
