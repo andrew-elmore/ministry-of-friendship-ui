@@ -11,13 +11,14 @@ export default function squadReducer(state = initState, action) {
     const { type, payload, meta } = action;
 
     switch (type) {
+        case 'JOIN_SQUAD_PENDING':
         case 'LIST_SQUAD_PENDING':
         case 'GET_SQUAD_PENDING':
         case 'GET_MY_SQUAD_PENDING':
         case 'SAVE_SQUAD_PENDING':
         case 'DELETE_SQUAD_PENDING':
             return { ...state, isLoading: true, hasFailed: false };
-
+        case 'JOIN_SQUAD_REJECTED':
         case 'LIST_SQUAD_REJECTED':
         case 'GET_SQUAD_REJECTED':
         case 'GET_MY_SQUAD_REJECTED':
@@ -33,6 +34,7 @@ export default function squadReducer(state = initState, action) {
                 hasFailed: false
             };
 
+        case 'JOIN_SQUAD_FULFILLED':
         case 'GET_SQUAD_FULFILLED':
         case 'GET_MY_SQUAD':
         case 'GET_MY_SQUAD_FULFILLED':

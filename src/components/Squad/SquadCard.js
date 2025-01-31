@@ -15,8 +15,8 @@ const SquadCard = ({ squad }) => {
     const dispatch = useDispatch();
     const profile = useSelector(({ profile }) => profile.me);
 
-    const joinSquad = () => {
-        dispatch(squadActions.joinSquad(profile.id, squad.id))
+    const joinSquad = async () => {
+        dispatch(squadActions.joinSquad(profile.id, squad.id));
     }
 
     const squadMemberCard = (memberSlot) => {

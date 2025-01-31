@@ -58,7 +58,7 @@ const SquadView = () => {
     return (
         <Stack spacing={4} justifyContent="center" sx={{ height: '100vh' }}>
             <PreferenceDisplay preference={squad?.get('preference')} />
-            <Button sx={{width: '100%'}} disabled={true}>{profile?.get('gamerTag')}</Button>
+            <Button sx={{width: '100%'}} disabled={true}>{squad?.get('host')?.get('gamerTag')}</Button>
             {squadSlots.map(({id, squadMember}) => (
                 <SquadMemberButton key={id} guestSlot={id} squadMember={squadMember} onClick={handleChange} />
             ))}

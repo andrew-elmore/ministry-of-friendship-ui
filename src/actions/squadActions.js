@@ -129,7 +129,7 @@ const remove = (squadId) => {
 const joinSquad = (profileId, squadId) => {
     return async (dispatch) => {
         const query = new Parse.Query(Squad);
-        query.include(['host', 'guestOne', 'guestTwo', 'guestThree']);
+        query.include(['host', 'guestOne', 'guestTwo', 'guestThree', 'preference']);
         const squad = await query.get(squadId);
         const hasSpace = ['guestOne', 'guestTwo', 'guestThree'].some(field => {
             const gamerTag = squad.get(field).get('gamerTag')
@@ -148,10 +148,12 @@ const joinSquad = (profileId, squadId) => {
             }
         }
 
+        await squad.save();
+
         dispatch({
             type: 'JOIN_SQUAD',
             meta: { squadId, profileId },
-            payload: squad.save()
+            payload: query.get(squadId)
         });
     };
 }
