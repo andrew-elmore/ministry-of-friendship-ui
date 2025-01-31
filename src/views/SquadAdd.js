@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+const { useNavigate } = require('react-router-dom');
 
 import Stack from 'components/core/Stack';
 import Input from 'components/core/Input';
@@ -13,6 +14,7 @@ import preferenceActions from 'actions/preferenceActions';
 import { Squad, Preference } from 'domain';
 
 const SquadAdd = () => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const personalPreference = useSelector(({ preference }) => preference.current);
     const profile = useSelector(({ profile }) => profile.me);
@@ -69,7 +71,7 @@ const SquadAdd = () => {
             return (
                 <Button 
                     sx={{width: '100%'}}
-                    onClick={() => handleChangeSquad({key: guestSlotId, value: {id: openProfile.id}})}
+                    onClick={() => handleChangeSquad({key: guestSlotId, value: null})}
                 >
                     CLASSIFIED
                 </Button>
@@ -102,7 +104,10 @@ const SquadAdd = () => {
         await dispatch(squadActions.save(squadToSave));
         dispatch(squadActions.getMySquad(profile?.id))
     }
-    
+
+    const handleCancel = () => {
+        navigate('/');
+    }
     return (
         <Stack alignItems="center" justifyContent="center" spacing={4} sx={{ height: '100vh' }}>
             <PreferenceForm  preference={squad?.get('preference')} onChange={handleChangePreference}/>
@@ -117,6 +122,7 @@ const SquadAdd = () => {
                 error={errors.code}
             />
             <Button onClick={handleSubmit} sx={{width: '100%'}}>Create Squad</Button>
+            <Button variant="outlined" onClick={handleCancel} sx={{width: '100%'}}>Cancel</Button>
         </Stack>
     );
 }
