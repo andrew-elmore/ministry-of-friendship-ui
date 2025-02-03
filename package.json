@@ -7,7 +7,11 @@
     "lint": "cross-env eslint . --ext .js --ignore-path .gitignore --cache --fix",
     "clean": "rimraf dist/*",
     "storybook": "storybook dev --debug-webpack -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "build:test": "webpack --config webpack.test.js",
+    "build:prod": "webpack --config webpack.prod.js",
+    "deploy:test": "npm run build:test && firebase deploy --only hosting:test",
+    "deploy:prod": "npm run build:prod && firebase deploy --only hosting:prod"
   },
   "dependencies": {
     "@babel/core": "latest",

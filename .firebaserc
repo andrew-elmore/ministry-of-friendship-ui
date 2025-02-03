@@ -1,0 +1,13 @@
+{
+  "projects": {
+    "default": "ministry-of-friendship"
+  },
+  "targets": {
+    "ministry-of-friendship": {
+      "hosting": {
+        "test": ["ministry-of-friendship-test"],
+        "prod": ["ministry-of-friendship"]
+      }
+    }
+  }
+}

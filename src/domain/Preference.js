@@ -74,6 +74,23 @@ export default class Preference extends BasicDomain {
     inspect = () => {
         return Preference.VALIDATION_SCHEMA.validate(this, { abortEarly: false });
     }
+
+    matches = (squadPreference) => {
+        const { difficulty, enemy, mic, objective } = this;
+
+        const difficultyMatch = difficulty.length === 0 || difficulty.some(d => squadPreference.difficulty.includes(d))
+        const enemyMatch = enemy.length === 0 || enemy.some(e => squadPreference.enemy.includes(e))
+        const micMatch = mic.length === 0 || mic.some(m => squadPreference.mic.includes(m))
+        const objectiveMatch = objective.length === 0 || objective.some(o => squadPreference.objective.includes(o))
+
+        console.log()
+        return (
+            difficultyMatch &&
+            enemyMatch &&
+            micMatch &&
+            objectiveMatch
+        );
+    }
 }
 
 if (global.Parse.Object.registerSubclass) {

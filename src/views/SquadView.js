@@ -11,6 +11,8 @@ import PreferenceDisplay from 'components/Preference/PreferenceDisplay';
 import SquadMemberButton from 'components/Squad/SquadMemberButton';
 
 import squadActions from 'actions/squadActions';
+import preferenceActions from 'actions/preferenceActions';
+
 import { Squad } from 'domain';
 
 
@@ -27,6 +29,7 @@ const SquadView = () => {
 
     const leaveSquad = () => {
         if (isHost) {
+            dispatch(preferenceActions.remove(squad.get('preference')?.id));
             dispatch(squadActions.remove(squad.id));
         } else {
             dispatch(squadActions.leaveSquad(squad.id, profile.id, openProfile.id));

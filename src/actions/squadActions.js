@@ -1,6 +1,38 @@
 import { Squad, Preference } from 'domain';
 import CommonUtils from 'utils/CommonUtils.js';
 
+const updateInList = (squadId, preference) => {
+    const query = new Parse.Query(Squad);
+    query.include('host')
+    query.include('guestOne')
+    query.include('guestTwo')
+    query.include('guestThree')
+    query.include('preference')
+
+    return {
+        type: 'UPDATE_SQUAD_IN_LIST',
+        meta: { squadId, preference },
+        payload: query.get(squadId)
+    };
+}
+
+const removeFromList = (squadId) => {
+    return {
+        type: 'REMOVE_SQUAD_FROM_LIST',
+        meta: { squadId }
+    };
+};
+
+const addSquadToList = (squadId, preference) => {
+    const query = new Parse.Query(Squad);
+
+    return {
+        type: 'ADD_SQUAD_TO_LIST',
+        meta: { squadId, preference },
+        payload: query.get(squadId)
+    };
+};
+
 const get = (squadId) => {
     const query = new Parse.Query(Squad);
     return {
@@ -174,5 +206,8 @@ export default {
     remove,
     leaveSquad,
     joinSquad,
-    updateSquad
+    updateSquad,
+    updateInList,
+    removeFromList,
+    addSquadToList
 };

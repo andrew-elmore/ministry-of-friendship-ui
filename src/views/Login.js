@@ -114,6 +114,17 @@ const Login = () => {
               >
                 Forgot password?
               </Link>
+              <Link 
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate('/signup');
+                }} 
+                component="button" 
+                variant="plain" 
+                size="sm"
+              >
+                Don't have an account? Sign up
+              </Link>
             </Stack>
           </form>
         </Stack>

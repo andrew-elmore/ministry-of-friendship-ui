@@ -9,7 +9,7 @@ export const initState = {
 
 export default function squadReducer(state = initState, action) {
     const { type, payload, meta } = action;
-
+    let squadMeetsPreference = false;
     switch (type) {
         case 'JOIN_SQUAD_PENDING':
         case 'LIST_SQUAD_PENDING':
@@ -61,6 +61,37 @@ export default function squadReducer(state = initState, action) {
                 isLoading: false,
                 hasFailed: false
             };
+        case 'UPDATE_SQUAD_IN_LIST_FULFILLED':
+            squadMeetsPreference = meta.preference.matches(new Squad(payload).get('preference'));
+            if (squadMeetsPreference) {
+                const squadIsAlreadyInList = state.list.some(item => item.id === payload.id);
+                if (squadIsAlreadyInList) {
+                    return {
+                        ...state,
+                        list: state.list.map(item => item.id === payload.id ? new Squad(payload) : item),
+                    }
+                } else {
+                    return {
+                        ...state,
+                        list: [...state.list, new Squad(payload)],
+                    }
+                }
+            } else {
+                return {
+                    ...state,
+                    list: state.list.filter(item => item.id !== payload.id),
+                }
+            }
+        case 'ADD_SQUAD_TO_LIST_FULFILLED':
+            return {
+                ...state,
+                list: [...state.list, new Squad(payload)],
+            }
+        case 'REMOVE_SQUAD_FROM_LIST':
+            return {
+                ...state,
+                list: state.list.filter(item => item.id !== meta.squadId),
+            }
         default:
             return state;
     }

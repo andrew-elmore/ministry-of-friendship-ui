@@ -10,6 +10,7 @@ import Button from 'components/core/Button';
 
 import PreferenceForm from 'components/Preference/PreferenceForm';
 import SquadCard from 'components/Squad/SquadCard';
+
 import { Preference } from 'domain';
 
 const Dashboard = () => {
@@ -17,6 +18,56 @@ const Dashboard = () => {
     const dispatch = useDispatch();
     const preference = useSelector(({ preference }) => preference.current);
     const squads = useSelector(({ squad }) => squad.list);
+    const openProfile = useSelector(({ profile }) => profile.open);
+
+    const isSquadOpen = (squad) => {
+        return (
+            squad.guestOne?.id === openProfile?.id || 
+            squad.guestTwo?.id === openProfile?.id || 
+            squad.guestThree?.id === openProfile?.id
+        )
+    }
+
+    React.useEffect(() => {
+        const setupSubscription = async () => {
+            const query = new Parse.Query('Squad');
+            const subscription = await query.subscribe();
+    
+            subscription.on('update', (squad) => {
+                if (isSquadOpen(squad)) {
+                    console.log('update', squad.id);
+                    dispatch(squadActions.updateInList(squad.id, preference));
+                } else {
+                    console.log('remove', squad.id);
+                    dispatch(squadActions.removeFromList(squad.id));
+                }
+            });
+            subscription.on('create', (squad) => {
+                if (isSquadOpen(squad)) {
+                    console.log('add', squad.id);
+                    dispatch(squadActions.addToList(squad.id, preference));
+                }         
+            });
+            subscription.on('delete', (squad) => {
+                console.log('remove', squad.id);
+                dispatch(squadActions.removeFromList(squad.id));
+            });
+    
+            return subscription;
+        };
+    
+        if (!openProfile) return;
+        let subscription;
+        setupSubscription().then(sub => {
+            subscription = sub;
+        });
+    
+        return () => {
+            if (subscription) {
+                subscription.unsubscribe();
+            }
+        };
+    }, [openProfile]);
 
     React.useEffect(() => {
         dispatch(squadActions.list({ preference }));

@@ -1,1 +1,5 @@
 /node_modules
+/dist
+webpack.prod.js
+webpack.test.js
+.vscode/launch.json

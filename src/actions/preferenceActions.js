@@ -58,8 +58,19 @@ const save = (preference) => {
     };
 };
 
+const remove = (preferenceId) => {
+    const query = new Parse.Query(Preference);
+    
+    return {
+        type: 'REMOVE_PREFERENCE',
+        meta: { preferenceId },
+        payload: query.get(preferenceId).then(preference => preference.destroy())
+    };
+};
+
 export default {
     get,
     list,
-    save
+    save,
+    remove
 };
