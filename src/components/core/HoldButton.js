@@ -82,6 +82,9 @@ const HoldButton = ({
                 ...props.sx,
                 position: 'relative',
                 overflow: 'hidden',
+                WebkitUserSelect: 'none',
+                userSelect: 'none',
+                WebkitTouchCallout: 'none',
                 '&:active': {
                     backgroundColor: colorPalette[100],
                 },

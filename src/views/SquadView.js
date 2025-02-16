@@ -37,19 +37,20 @@ const SquadView = () => {
     }
 
     const handleChange = async ({key, value}) => {
-
-        const squadToSave = new Squad();
-        squadToSave.set('id', squad.id);
-        squadToSave.set('code', squad.get('code'));
-        squadToSave.set('preference', squad.get('preference'));
-        squadToSave.set('host', squad.get('host'));
-        squadToSave.set('guestOne', squad.get('guestOne'));
-        squadToSave.set('guestTwo', squad.get('guestTwo'));
-        squadToSave.set('guestThree', squad.get('guestThree'));
-        squadToSave.set(key, value);
-
-        await dispatch(squadActions.save(squadToSave));
-        dispatch(squadActions.getMySquad(profile?.id))
+        if (isHost) {
+            const squadToSave = new Squad();
+            squadToSave.set('id', squad.id);
+            squadToSave.set('code', squad.get('code'));
+            squadToSave.set('preference', squad.get('preference'));
+            squadToSave.set('host', squad.get('host'));
+            squadToSave.set('guestOne', squad.get('guestOne'));
+            squadToSave.set('guestTwo', squad.get('guestTwo'));
+            squadToSave.set('guestThree', squad.get('guestThree'));
+            squadToSave.set(key, value);
+    
+            await dispatch(squadActions.save(squadToSave));
+            dispatch(squadActions.getMySquad(profile?.id))
+        }
     }
 
     const squadSlots = [

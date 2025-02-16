@@ -97,7 +97,7 @@ const NullComponent = ({image, ...props}) => (
 
 const PreferenceDisplay = ({preference}) => {
     return (
-        <Grid container spacing={2} sx={{m: 2}}>
+        <Grid container spacing={1} sx={{m: 2}}>
             <Grid item xs={12}>
                 <Stack alignItems="center" justifyContent="center" width="100%" direction="row" spacing={1}>
                     {difficulties.map((difficulty, idx) => {

@@ -7,6 +7,9 @@ import squadActions from 'actions/squadActions';
 
 import Stack from 'components/core/Stack';
 import Button from 'components/core/Button';
+import IconButton from 'components/core/IconButton';
+
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 import PreferenceForm from 'components/Preference/PreferenceForm';
 import SquadCard from 'components/Squad/SquadCard';
@@ -19,6 +22,10 @@ const Dashboard = () => {
     const preference = useSelector(({ preference }) => preference.current);
     const squads = useSelector(({ squad }) => squad.list);
     const openProfile = useSelector(({ profile }) => profile.open);
+
+    const handleProfileClick = () => {
+        navigate('/profile');
+    };
 
     const isSquadOpen = (squad) => {
         return (
@@ -45,7 +52,7 @@ const Dashboard = () => {
             subscription.on('create', (squad) => {
                 if (isSquadOpen(squad)) {
                     console.log('add', squad.id);
-                    dispatch(squadActions.addToList(squad.id, preference));
+                    dispatch(squadActions.addSquadToList(squad.id, preference));
                 }         
             });
             subscription.on('delete', (squad) => {
@@ -91,26 +98,53 @@ const Dashboard = () => {
 
 
     return (
-        <Stack spacing={2} sx={{ height: '100vh' }}>
+        <Stack spacing={1}>
             <PreferenceForm 
                 preference={preference}
                 onChange={handleSavePreference}
             />
             <Button onClick={handleStartSquad}>Start A Squad</Button>
             <Stack 
-                spacing={2} 
+                spacing={1} 
                 sx={{ 
                     overflow: 'auto',
                     maskImage: 'linear-gradient(to bottom, transparent 0%, black 20px)',
                     WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 20px)',
                     paddingTop: 2,
                     width: '100%',
+                    flex: 1,
+                    minHeight: 0,
                 }}
             >
                 {squads.map(squad => (
                     <SquadCard key={squad.id} squad={squad} />
                 ))}
             </Stack>
+            <IconButton
+                onClick={handleProfileClick}
+                sx={{
+                    position: 'fixed',
+                    bottom: 8,
+                    left: 8,
+                    width: 56,
+                    height: 56,
+                    '&::before': {
+                        content: '""',
+                        position: 'absolute',
+                        width: '150%',
+                        height: '150%',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        background: 'radial-gradient(circle, rgba(0,0,0,1) 30%, rgba(0,0,0,0.2) 70%, rgba(0,0,0,0) 100%)',
+                        zIndex: -1,
+                        pointerEvents: 'none',
+                        borderRadius: '50%',
+                    }
+                }}
+            >
+                <AccountCircleIcon color="primary" sx={{ fontSize: 40 }} />
+            </IconButton>
         </Stack>
     );
 }

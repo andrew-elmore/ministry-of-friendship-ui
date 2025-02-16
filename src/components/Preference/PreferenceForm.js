@@ -16,7 +16,7 @@ const PreferenceForm = ({preference, onChange }) => {
         onChange({key, value});
     }
     return (
-        <Grid container spacing={2}>
+        <Grid container spacing={1}>
             <Grid item xs={12} md={12}>
                 <DifficultySlider
                     value={preference.difficulty}
