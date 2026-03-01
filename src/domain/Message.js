@@ -1,5 +1,5 @@
-import BasicDomain from './BasicDomain';
 import CommonUtils from "../utils/CommonUtils";
+import BasicDomain from './BasicDomain';
 
 export default class Message extends BasicDomain {
     static TYPE_INFO = 'neutral';

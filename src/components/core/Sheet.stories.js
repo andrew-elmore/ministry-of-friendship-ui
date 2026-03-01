@@ -1,6 +1,6 @@
 import React from 'react';
-import Sheet, { colorsOptions, variantOptions, capOptions, gradientOptions } from './Sheet';
 import {Box} from "@mui/joy";
+import Sheet, { colorsOptions, variantOptions, capOptions, gradientOptions } from './Sheet';
 
 export default {
     title: 'Core/Sheet',

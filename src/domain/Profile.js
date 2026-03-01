@@ -1,5 +1,5 @@
-import BasicDomain from "./BasicDomain";
 import * as yup from 'yup';
+import BasicDomain from "./BasicDomain";
 import Preference from "./Preference";
 
 export default class Profile extends BasicDomain {

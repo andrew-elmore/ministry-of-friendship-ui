@@ -1,8 +1,6 @@
 import React, {useEffect} from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet , useSearchParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { useSearchParams } from 'react-router-dom';
-
 import Login from "views/Login";
 // import UpdatePassword from "views/UpdatePassword";
 import ProcessingOverlay from "components/core/ProcessingOverlay";

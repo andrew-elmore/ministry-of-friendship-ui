@@ -123,7 +123,7 @@ const Login = () => {
                 variant="plain" 
                 size="sm"
               >
-                Don't have an account? Sign up
+                Don&apos;t have an account? Sign up
               </Link>
             </Stack>
           </form>

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Autocomplete as JoyAutocomplete, FormControl, FormLabel, AutocompleteOption } from '@mui/joy';
 import PropTypes from "prop-types";
-import Typography from './Typography';
 
 const defaultGetOptionLabel = option => {
     return option && option.label !== undefined ? option.label : option;

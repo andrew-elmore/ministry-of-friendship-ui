@@ -1,5 +1,5 @@
-import ErrorHandlerUtils from 'utils/ErrorHandlerUtils';
 import { MessageArray } from 'domain';
+import ErrorHandlerUtils from 'utils/ErrorHandlerUtils';
 
 const initState = {
     notices: new MessageArray(),

@@ -1,14 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useTheme } from '@mui/material';
-
 import Stack from 'components/core/Stack';
 import Sheet from 'components/core/Sheet';
+import SquadView from 'views/SquadView';
 import Loader from './Loader';
 import Notices from './Notices';
 
-import SquadView from 'views/SquadView';
 
 const Layout = () => {
     const theme = useTheme();

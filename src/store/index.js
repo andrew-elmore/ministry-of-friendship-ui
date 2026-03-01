@@ -2,7 +2,6 @@ import { applyMiddleware, createStore, combineReducers } from 'redux';
 import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 import promise from 'redux-promise-middleware';
-
 import app from './appReducer';
 import auth from './authReducer';
 import profile from './profileReducer';

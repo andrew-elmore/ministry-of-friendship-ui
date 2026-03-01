@@ -4,16 +4,14 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import { Provider } from 'react-redux';
 import CssBaseline from '@mui/joy/CssBaseline';
 import { CssVarsProvider } from '@mui/joy/styles';
-
 import {initialize} from 'utils/ParseUtils';
-import createAppStore from './store';
-import theme from './theme';
-
-import Layout from "./components/ui/Layout";
-import Authorize from "./components/ui/Authorize";
 import Dashboard from 'views/Dashboard';
 import Signup from 'views/Signup';
 import SquadAdd from 'views/SquadAdd';
+import createAppStore from './store';
+import theme from './theme';
+import Layout from "./components/ui/Layout";
+import Authorize from "./components/ui/Authorize";
 
 initialize();
 const store = createAppStore();

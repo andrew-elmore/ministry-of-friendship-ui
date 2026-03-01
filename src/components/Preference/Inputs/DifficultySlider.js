@@ -3,7 +3,6 @@ import Slider from 'components/core/Slider';
 import PropTypes from 'prop-types';
 import ImageComponent from 'components/core/ImageComponent';
 import Tooltip from '@mui/joy/Tooltip';
-
 import { isEqual, debounce } from 'lodash';
 
 

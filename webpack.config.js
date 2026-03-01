@@ -1,8 +1,8 @@
 const path = require('path');
-const packageJson = require('./package.json');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const packageJson = require('./package.json');
 
 module.exports = {
     entry: './src/index.js',

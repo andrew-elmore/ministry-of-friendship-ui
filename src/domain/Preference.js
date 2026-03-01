@@ -1,5 +1,5 @@
-import BasicDomain from "./BasicDomain";
 import * as yup from 'yup';
+import BasicDomain from "./BasicDomain";
 
 export default class Preference extends BasicDomain {
 

@@ -1,6 +1,6 @@
 import React from 'react';
-import ProcessingOverlay from './ProcessingOverlay';
 import {Typography} from "@mui/joy";
+import ProcessingOverlay from './ProcessingOverlay';
 
 export default {
     title: 'Core/ProcessingOverlay',

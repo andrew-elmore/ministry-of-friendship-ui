@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button as JoyButton } from '@mui/joy';
 import { useDispatch } from 'react-redux';
-import appActions from 'actions/appActions';
 
 const Button = ({ children, onClick, eventCategory = 'Button', eventAction = 'Click', eventLabel, ...props }) => {
     const dispatch = useDispatch();

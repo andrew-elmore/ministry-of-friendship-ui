@@ -82,6 +82,7 @@ const Signup = () => {
           <form onSubmit={handleSubmit} style={{ width: '100%' }}>
             <Stack spacing={4} alignItems="center">
               <Input
+                data-testid="signup-email"
                 placeholder="Email"
                 type="email"
                 value={formData.email}
@@ -93,6 +94,7 @@ const Signup = () => {
               />
 
               <Input
+                data-testid="signup-gamertag"
                 placeholder="Gamer Tag"
                 value={formData.gamerTag}
                 onChange={(value) => setFormData({
@@ -101,8 +103,9 @@ const Signup = () => {
                 })}
                 sx={{ width: '100%' }}
               />
-              
+
               <Input
+                data-testid="signup-password"
                 type="password"
                 placeholder="Password"
                 value={formData.password}
@@ -114,6 +117,7 @@ const Signup = () => {
               />
 
               <Input
+                data-testid="signup-confirm-password"
                 type="password"
                 placeholder="Confirm Password"
                 value={formData.confirmPassword}
@@ -126,8 +130,9 @@ const Signup = () => {
               
               {error && <div style={{ color: 'red' }}>{error}</div>}
               
-              <Button 
-                type="submit" 
+              <Button
+                data-testid="signup-submit"
+                type="submit"
                 disabled={isLoading}
                 sx={{ width: '100%' }}
               >

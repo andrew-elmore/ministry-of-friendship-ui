@@ -1,7 +1,6 @@
 import React from 'react';
-import { useTheme } from '@mui/joy';
+import { useTheme , Typography as JoyTypography } from '@mui/joy';
 import PropTypes from 'prop-types';
-import { Typography as JoyTypography } from '@mui/joy';
 
 const Typography = ({ children, ...props }) => {
     const theme = useTheme();

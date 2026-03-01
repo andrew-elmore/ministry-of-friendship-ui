@@ -1,10 +1,8 @@
 import React from 'react';
 import Stack from 'components/core/Stack';
-
 import PropTypes from 'prop-types';
 import Tooltip from '@mui/joy/Tooltip';
 import Button from '@mui/joy/Button';
-
 import ToggleButtonGroup from '@mui/joy/ToggleButtonGroup';
 import PublicIcon from '@mui/icons-material/Public';
 import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';

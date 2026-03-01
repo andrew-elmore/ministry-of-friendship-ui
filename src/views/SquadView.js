@@ -1,19 +1,15 @@
+import { Squad } from 'domain';
 import React from 'react';
-
 import { useSelector, useDispatch } from 'react-redux';
-
 import Stack from 'components/core/Stack';
 import Button from 'components/core/Button';
 import HoldButton from 'components/core/HoldButton';
 import Typography from 'components/core/Typography';
-
 import PreferenceDisplay from 'components/Preference/PreferenceDisplay';
 import SquadMemberButton from 'components/Squad/SquadMemberButton';
-
 import squadActions from 'actions/squadActions';
 import preferenceActions from 'actions/preferenceActions';
 
-import { Squad } from 'domain';
 
 
 const SquadView = () => {
@@ -70,7 +66,7 @@ const SquadView = () => {
                 variant="h4"
                 textAlign="center"
             >{squad.get('code')}</Typography>
-            <HoldButton color="danger" onHold={leaveSquad}>{isHost ? 'Disband' : 'Leave'}</HoldButton>
+            <HoldButton data-testid={isHost ? "disband-button" : "leave-button"} color="danger" onHold={leaveSquad}>{isHost ? 'Disband' : 'Leave'}</HoldButton>
         </Stack>
     );
 }

@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import Parse from 'parse';
-import CommonUtils from 'utils/CommonUtils';
-
 import ProcessingOverlay from "components/core/ProcessingOverlay";
 import authActions from "actions/authActions";
 import profileActions from "actions/profileActions";

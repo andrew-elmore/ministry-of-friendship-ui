@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-
 import { useTheme } from '@mui/joy';
-
 import Box from '../core/Box';
 import Grid from '../core/Grid';
 import Stack from '../core/Stack';
@@ -18,7 +16,7 @@ const StatBox = ({ value = '0', description = '', duration = 1000 }) => {
     const [currentValue, setCurrentValue] = useState(0);
 
     const matches =
-    String(value).match(/^([^0-9\.]+)?([0-9\.]+)([^0-9\.]+)?$/) || [];
+    String(value).match(/^([^0-9.]+)?([0-9.]+)([^0-9.]+)?$/) || [];
 
     const valuePrefix = matches.length > 1 && matches[1] ? matches[1] : '';
 
