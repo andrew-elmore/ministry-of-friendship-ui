@@ -1,5 +1,6 @@
 import { chromium } from '@playwright/test';
 import { RandomGenerator } from './RandomGenerator.js';
+import { signInNewClerkUser, enlist, deleteClerkUser } from './clerkUsers.js';
 
 export class Player {
   static STATES = {
@@ -23,8 +24,7 @@ export class Player {
     this.page = null;
     this.preference = null;
     this.gamerTag = null;
-    this.username = null;
-    this.password = null;
+    this.clerkUser = null;
     this.lobbyCreatedAt = null;
     this.isRunning = false;
     this.stateTimers = {
@@ -46,8 +46,6 @@ export class Player {
 
     this.preference = RandomGenerator.randomPreference();
     this.gamerTag = RandomGenerator.randomGamerTag();
-    this.username = `player${this.id}_${Date.now()}@test.com`;
-    this.password = 'TestPass123!';
 
     this.setState(Player.STATES.GENERATING_ACCOUNT);
   }
@@ -65,6 +63,7 @@ export class Player {
     if (this.page) await this.page.close().catch(() => {});
     if (this.context) await this.context.close().catch(() => {});
     if (this.browser) await this.browser.close().catch(() => {});
+    await deleteClerkUser(this.clerkUser).catch(() => {});
 
     console.log(`:~: [Player ${this.id}] Stopped`);
   }
@@ -112,15 +111,8 @@ export class Player {
 
   async generateAccount() {
     try {
-      await this.page.goto(`${this.baseURL}/signup`);
-
-      await this.page.locator('[data-testid="signup-email"]').fill(this.username);
-      await this.page.locator('[data-testid="signup-gamertag"]').fill(this.gamerTag);
-      await this.page.locator('[data-testid="signup-password"]').fill(this.password);
-      await this.page.locator('[data-testid="signup-confirm-password"]').fill(this.password);
-
-      await this.page.locator('[data-testid="signup-submit"]').click();
-      await this.page.waitForURL(url => !url.pathname.includes('/signup'), { timeout: 10000 });
+      this.clerkUser = await signInNewClerkUser(this.page, this.baseURL, `player${this.id}`);
+      await enlist(this.page, this.gamerTag);
       await this.page.waitForLoadState('networkidle');
       await this.page.waitForSelector('#root', { state: 'attached', timeout: 30000 });
 
@@ -135,7 +127,7 @@ export class Player {
       const html = await this.page.content();
       console.log(`:~: [Player ${this.id}] Page HTML (first 2000 chars):`);
       console.log(html.substring(0, 2000));
-      const testIds = ['signup-email', 'signup-gamertag', 'signup-password', 'signup-confirm-password', 'signup-submit'];
+      const testIds = ['profile-gamertag', 'profile-submit'];
       for (const testId of testIds) {
         const hasTestId = html.includes(`data-testid="${testId}"`);
         console.log(`:~: [Player ${this.id}] Found data-testid="${testId}": ${hasTestId}`);

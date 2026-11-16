@@ -5,8 +5,8 @@ webpack.test.js
 .vscode/launch.json
 
 .env
-.env.local
-.env.*.local
+.env.*
+!.env.example
 
 *.log
 npm-debug.log*
@@ -22,4 +22,3 @@ playwright-report
 test-results
 
 .eslintcache
-.firebase/*.cache

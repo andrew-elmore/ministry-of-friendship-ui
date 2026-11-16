@@ -8,11 +8,6 @@ export const createMockStore = (initialState = {}) => {
       processing: false,
       notices: []
     },
-    auth: {
-      currentUser: null,
-      sessionToken: null,
-      isAuthenticated: false
-    },
     profile: {
       profile: null,
       loading: false
@@ -41,12 +36,6 @@ export const getMockState = (overrides = {}) => ({
     processing: false,
     notices: [],
     ...overrides.app
-  },
-  auth: {
-    currentUser: null,
-    sessionToken: null,
-    isAuthenticated: false,
-    ...overrides.auth
   },
   profile: {
     profile: null,

@@ -11,6 +11,8 @@ export default function preferenceReducer(state = initState, action) {
     const { type, payload, meta } = action;
 
     switch (type) {
+        case 'CLEAR_PROFILE_PENDING':
+            return { ...initState };
         case 'LIST_PREFERENCE_PENDING':
         case 'GET_PREFERENCE_PENDING':
         case 'SAVE_PREFERENCE_PENDING':

@@ -1,23 +1,16 @@
 const { chromium } = require('playwright');
+const { signInNewClerkUser, enlist, deleteClerkUser } = require('./tests/e2e/helpers/clerkUsers.js');
 
 (async () => {
   const browser = await chromium.launch({ headless: false });
   const context = await browser.newContext();
   const page = await context.newPage();
 
-  const email = `qa-test-fill-${Date.now()}@test.com`;
   const gamertag = `QATestFill${Date.now()}`;
-  const password = 'TestPass123!';
 
   console.log(':~: Creating account');
-  await page.goto('http://localhost:8081/signup');
-  await page.waitForTimeout(1000);
-
-  await page.locator('[data-testid="signup-email"]').fill(email);
-  await page.locator('[data-testid="signup-gamertag"]').fill(gamertag);
-  await page.locator('[data-testid="signup-password"]').fill(password);
-  await page.locator('[data-testid="signup-confirm-password"]').fill(password);
-  await page.locator('[data-testid="signup-submit"]').click();
+  const clerkUser = await signInNewClerkUser(page, 'http://localhost:8081', 'qa-test-fill');
+  await enlist(page, gamertag);
 
   console.log(':~: Waiting for account creation...');
   await page.waitForTimeout(3000);
@@ -49,4 +42,5 @@ const { chromium } = require('playwright');
 
   await page.waitForTimeout(5000);
   await browser.close();
+  await deleteClerkUser(clerkUser);
 })();
