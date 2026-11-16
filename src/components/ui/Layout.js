@@ -2,7 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from '@mui/material';
-import { useUser } from '@clerk/clerk-react';
+import { useUser } from '@clerk/react';
 import Stack from 'components/core/Stack';
 import Sheet from 'components/core/Sheet';
 import Card from 'components/core/Card';
