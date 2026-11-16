@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import Parse from 'parse';
-import { useUser } from '@clerk/clerk-react';
+import { useUser } from '@clerk/react';
 import ProcessingOverlay from "components/core/ProcessingOverlay";
 import profileActions from "actions/profileActions";
 import preferenceActions from 'actions/preferenceActions';

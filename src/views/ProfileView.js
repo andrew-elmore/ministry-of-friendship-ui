@@ -1,5 +1,5 @@
 import React from 'react';
-import { useClerk } from '@clerk/clerk-react';
+import { useClerk } from '@clerk/react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Stack from 'components/core/Stack';

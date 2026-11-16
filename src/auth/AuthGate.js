@@ -1,5 +1,5 @@
 import React from 'react';
-import { SignInButton, SignUpButton, useUser } from '@clerk/clerk-react';
+import { SignInButton, SignUpButton, useUser } from '@clerk/react';
 import Sheet from 'components/core/Sheet';
 import Card from 'components/core/Card';
 import Stack from 'components/core/Stack';

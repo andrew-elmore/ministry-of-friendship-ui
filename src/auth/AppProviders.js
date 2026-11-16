@@ -1,5 +1,5 @@
 import React from 'react';
-import { ClerkProvider } from '@clerk/clerk-react';
+import { ClerkProvider } from '@clerk/react';
 import clerkAppearance from './clerkAppearance';
 
 const CLERK_KEY = process.env.CLERK_PUBLISHABLE_KEY;
