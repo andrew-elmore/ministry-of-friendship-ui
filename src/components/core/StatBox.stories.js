@@ -1,5 +1,4 @@
 import React from 'react';
-
 import StatBox, { StatBoxGroup } from './StatBox';
 
 export default {

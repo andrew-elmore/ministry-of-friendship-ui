@@ -1,3 +1,4 @@
+import { Message } from 'domain';
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Alert, Typography } from '@mui/joy';
@@ -6,7 +7,6 @@ import WarningIcon from '@mui/icons-material/Warning';
 import ReportIcon from '@mui/icons-material/Report';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
-import { Message } from 'domain';
 
 const DEFAULT_SETTINGS = {
     [Message.TYPE_ERROR]: { titleText: 'Error', color: 'danger', icon: <ReportIcon /> },

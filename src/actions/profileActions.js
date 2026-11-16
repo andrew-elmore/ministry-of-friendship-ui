@@ -1,6 +1,6 @@
 const Parse = global.Parse;
 
-import {Profile} from 'domain';
+import {Profile, Preference} from 'domain';
 
 const PROFILE_FIELDS = Object.keys(Profile.DEFAULTS);
 
@@ -51,18 +51,39 @@ const clear = () => ({
 });
 
 /**
- * Fetches the current authenticated user's Profile.
+ * Fetches the Profile owned by the signed in Clerk user.
  *
- * @returns {Object|null} - The current user's details or null if not logged in.
+ * @param {string} clerkUserId - The Clerk user id of the signed in user.
+ * @returns {Object} - Resolves to the user's Profile, or undefined when they have not created one yet.
  */
-const me = (user) => {
+const me = (clerkUserId) => {
     return {
         type: 'RESTORE_PROFILE',
-        meta: { user },
+        meta: { clerkUserId },
         payload: new Parse.Query(Profile)
-            .equalTo('user', user.toPointer())
+            .equalTo('clerkUserId', clerkUserId)
             .select(PROFILE_FIELDS)
             .first(),
+    };
+};
+
+/**
+ * Creates the signed in Clerk user's Profile and personal Preference. The API stamps both with the Clerk user id.
+ *
+ * @param {string} gamerTag - The gamer tag the user chose.
+ * @returns {Object} - Resolves to the saved Profile.
+ */
+const create = (gamerTag) => {
+    const preference = new Preference();
+    preference.set('type', Preference.PERSONAL);
+
+    const profile = new Profile();
+    profile.set('gamerTag', gamerTag);
+    profile.set('preference', preference);
+
+    return {
+        type: 'CREATE_PROFILE',
+        payload: profile.save(),
     };
 };
 
@@ -91,6 +112,7 @@ export default {
     save,
     clear,
     me,
+    create,
     getClassified,
     getOpen
 };

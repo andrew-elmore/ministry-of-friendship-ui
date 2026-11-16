@@ -1,0 +1,47 @@
+services:
+  - type: web
+    name: ministry-of-friendship-ui
+    runtime: static
+    plan: free
+    branch: master
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /api/*
+        destination: https://ministry-of-friendship-api.onrender.com/parse/*
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: NODE_VERSION
+        value: 22.21.1
+      - key: PARSE_SERVER_URL
+        value: https://ministry-of-friendship-ui.onrender.com/api
+      - key: PARSE_APP_ID
+        sync: false
+      - key: CLERK_PUBLISHABLE_KEY
+        sync: false
+  - type: web
+    name: ministry-of-friendship-ui-test
+    runtime: static
+    plan: free
+    branch: develop
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /api/*
+        destination: https://ministry-of-friendship-api-test.onrender.com/parse/*
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: NODE_VERSION
+        value: 22.21.1
+      - key: PARSE_SERVER_URL
+        value: https://ministry-of-friendship-ui-test.onrender.com/api
+      - key: PARSE_APP_ID
+        sync: false
+      - key: CLERK_PUBLISHABLE_KEY
+        sync: false

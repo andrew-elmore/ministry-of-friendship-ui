@@ -2,7 +2,6 @@ import React from 'react';
 import Stack from 'components/core/Stack';
 import Grid from 'components/core/Grid';
 import ImageComponent from 'components/core/ImageComponent';
-
 import MicIcon from '@mui/icons-material/Mic';
 import MicNoneIcon from '@mui/icons-material/MicNone';
 import MicOffIcon from '@mui/icons-material/MicOff';

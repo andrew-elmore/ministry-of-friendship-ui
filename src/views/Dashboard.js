@@ -1,20 +1,16 @@
+import { Preference } from 'domain';
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
 import preferenceActions from 'actions/preferenceActions';
 import squadActions from 'actions/squadActions';
-
 import Stack from 'components/core/Stack';
 import Button from 'components/core/Button';
 import IconButton from 'components/core/IconButton';
-
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-
 import PreferenceForm from 'components/Preference/PreferenceForm';
 import SquadCard from 'components/Squad/SquadCard';
 
-import { Preference } from 'domain';
 
 const Dashboard = () => {
     const navigate = useNavigate();

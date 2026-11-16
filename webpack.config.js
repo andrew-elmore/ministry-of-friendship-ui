@@ -1,8 +1,10 @@
+require('dotenv').config();
 const path = require('path');
-const packageJson = require('./package.json');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const packageJson = require('./package.json');
 
 module.exports = {
     entry: './src/index.js',
@@ -76,6 +78,9 @@ module.exports = {
         }
     },
     plugins: [
+        new webpack.DefinePlugin({
+            'process.env.CLERK_PUBLISHABLE_KEY': JSON.stringify(process.env.CLERK_PUBLISHABLE_KEY),
+        }),
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             template: './src/index.html'
@@ -106,10 +111,10 @@ module.exports = {
     externals: {
         Config: JSON.stringify({
             appUrl: 'http://localhost:3000/',
-            apiUrl: 'http://localhost:1337/api',
+            apiUrl: process.env.PARSE_SERVER_URL || 'http://localhost:1337/parse',
             wsUrl: 'ws://localhost:1337',
             apiKey: 'myJSKey',
-            apiId: 'myAppId',
+            apiId: process.env.PARSE_APP_ID || 'myAppId',
             liveQueryUrl: 'ws://localhost:1337/api',
         }),
     },

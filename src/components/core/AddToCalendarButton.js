@@ -1,9 +1,9 @@
+import { Event } from 'domain';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { AddToCalendarButton as RootAddToCalendarButton } from 'add-to-calendar-button-react';
 import { DateTime } from 'luxon';
 
-import { Event } from 'domain';
 
 const AddToCalendarButton = ({ event }) => {
 

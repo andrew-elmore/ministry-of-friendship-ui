@@ -35,21 +35,13 @@ export default class ErrorHandlerUtils {
         let { details } = payload;
 
         switch (type) {
-            case 'LOGIN_USER_REJECTED':
-                title = 'Login Failed';
-                break;
-            case 'USER_ADD_REJECTED':
-                title = 'Registration Failed';
-                break;
-            case 'USER_RESET_REJECTED':
-                title = 'Reset Failed';
-                break;
-            case 'USER_CHANGE_PASSWORD_REJECTED':
-                title = 'Incorrect Password';
-                details = 'Current password entered is incorrect.';
+            case 'CREATE_PROFILE_REJECTED':
+                title = 'Profile Not Created';
+                details = payload.message;
                 break;
             default:
-                title = ErrorHandlerUtils.statusCodeName(payload.response.status);
+                title = payload.response ? ErrorHandlerUtils.statusCodeName(payload.response.status) : 'Request Failed';
+                details = details ?? payload.message;
         }
 
         if (

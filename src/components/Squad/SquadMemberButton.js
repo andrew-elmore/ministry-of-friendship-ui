@@ -1,6 +1,5 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-
+import { useSelector } from 'react-redux';
 import Button from 'components/core/Button';
 import HoldButton from 'components/core/HoldButton';
 
@@ -15,7 +14,8 @@ const SquadMemberButton = ({ guestSlot, squadMember, onClick }) => {
 
     if (squadMember?.id === openProfile?.id) {
         return (
-            <Button 
+            <Button
+                data-testid={`squad-member-${guestSlot}`}
                 sx={{width: '100%'}}
                 variant="outlined"
                 onClick={() => handleClick({key: guestSlot, value: {id: classifiedProfile.id}})}
@@ -25,7 +25,8 @@ const SquadMemberButton = ({ guestSlot, squadMember, onClick }) => {
         )
     } else if(squadMember?.id === classifiedProfile?.id) {
         return (
-            <HoldButton 
+            <HoldButton
+                data-testid={`squad-member-${guestSlot}`}
                 sx={{width: '100%'}}
                 onHold={() => handleClick({key: guestSlot, value: {id: openProfile.id}})}
             >
@@ -35,6 +36,7 @@ const SquadMemberButton = ({ guestSlot, squadMember, onClick }) => {
     } else {
         return (
             <HoldButton
+                data-testid={`squad-member-${guestSlot}`}
                 sx={{width: '100%'}}
                 onHold={() => handleClick({key: guestSlot, value: {id: openProfile.id}})}
             >

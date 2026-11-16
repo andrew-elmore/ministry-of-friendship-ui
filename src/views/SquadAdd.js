@@ -1,17 +1,14 @@
+import { Squad, Preference } from 'domain';
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-const { useNavigate } = require('react-router-dom');
-
 import Stack from 'components/core/Stack';
 import Input from 'components/core/Input';
 import Button from 'components/core/Button';
-
 import PreferenceForm from 'components/Preference/PreferenceForm';
-
 import squadActions from 'actions/squadActions';
 import preferenceActions from 'actions/preferenceActions';
+const { useNavigate } = require('react-router-dom');
 
-import { Squad, Preference } from 'domain';
 
 const SquadAdd = () => {
     const navigate = useNavigate();
@@ -59,7 +56,8 @@ const SquadAdd = () => {
     const squadGuestButton = (guestSlotId) => {
         if (squad.get(guestSlotId) === null) {
             return (
-                <Button 
+                <Button
+                    data-testid={`guest-button-${guestSlotId}`}
                     sx={{width: '100%'}}
                     variant="outlined"
                     onClick={() => handleChangeSquad({key: guestSlotId, value: {id: classifiedProfile.id}})}
@@ -69,7 +67,8 @@ const SquadAdd = () => {
             )
         } else {
             return (
-                <Button 
+                <Button
+                    data-testid={`guest-button-${guestSlotId}`}
                     sx={{width: '100%'}}
                     onClick={() => handleChangeSquad({key: guestSlotId, value: null})}
                 >
@@ -116,12 +115,13 @@ const SquadAdd = () => {
             {squadGuestButton('guestTwo')}
             {squadGuestButton('guestThree')}
             <Input
+                data-testid="friend-code-input"
                 placeholder="Friend Code"
                 value={squad.get('code')}
                 onChange={(value) => handleChangeSquad({key: 'code', value})}
                 error={errors.code}
             />
-            <Button onClick={handleSubmit} sx={{width: '100%'}}>Create Squad</Button>
+            <Button data-testid="create-squad-button" onClick={handleSubmit} sx={{width: '100%'}}>Create Squad</Button>
             <Button variant="outlined" onClick={handleCancel} sx={{width: '100%'}}>Cancel</Button>
         </Stack>
     );

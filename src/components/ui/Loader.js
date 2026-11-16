@@ -1,23 +1,19 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import Parse from 'parse';
-import CommonUtils from 'utils/CommonUtils';
-
+import { useUser } from '@clerk/clerk-react';
 import ProcessingOverlay from "components/core/ProcessingOverlay";
-import authActions from "actions/authActions";
 import profileActions from "actions/profileActions";
 import preferenceActions from 'actions/preferenceActions';
 import squadActions from 'actions/squadActions';
 
 const Loader = () => {
     const dispatch = useDispatch();
-    const isAuthorized = useSelector(({ auth }) => auth.isAuthorized);
-    const user = useSelector(({ auth }) => auth.me);
-    const isAuthorizing = useSelector(({ auth }) => auth.isAuthorizing);
+    const { user } = useUser();
     const isProfileLoading = useSelector(({ profile }) => profile.isLoading);
     const profile = useSelector(({ profile }) => profile.me);
     const squad = useSelector(({ squad }) => squad.current?.id ? squad.current : null);
-    const isLoading = isAuthorizing || isProfileLoading;
+    const isLoading = isProfileLoading;
 
     const setupSquadLiveQuery = async () => {
         if (!squad?.id) return;
@@ -54,10 +50,6 @@ const Loader = () => {
     }
 
     useEffect(() => {
-        dispatch(authActions.me());
-    }, []);
-
-    useEffect(() => {
         if (profile?.id) {
             dispatch(preferenceActions.get(profile?.preference?.id))
             dispatch(squadActions.getMySquad(profile?.id))
@@ -76,15 +68,11 @@ const Loader = () => {
     }, [squad?.id]);
 
     useEffect(() => {
-        if (isAuthorized) {
-            dispatch(profileActions.me(user))
-        } else {
-            clear()
-        }
+        dispatch(profileActions.me(user.id))
         return () => {
             clear()
         }
-    }, [isAuthorized]);
+    }, [user.id]);
 
     return <ProcessingOverlay enabled={isLoading} />;
 };

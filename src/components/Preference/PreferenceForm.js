@@ -1,14 +1,13 @@
+import { Preference } from 'domain';
 import React from 'react';
 import PropTypes from 'prop-types';
 import Stack from 'components/core/Stack';
 import Grid from 'components/core/Grid';
-
 import DifficultySlider from 'components/Preference/Inputs/DifficultySlider';
 import EnemySelect from 'components/Preference/Inputs/EnemySelect';
 import MicSelect from 'components/Preference/Inputs/MicSelect';
 import ObjectiveSelect from 'components/Preference/Inputs/ObjectiveSelect';
 
-import { Preference } from 'domain';
 
 
 const PreferenceForm = ({preference, onChange }) => {

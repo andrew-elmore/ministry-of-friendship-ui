@@ -4,25 +4,32 @@ import { Input as JoyInput, Textarea as JoyTextarea, FormControl, FormLabel, For
 import InputRating from './InputRating';
 
 const Input = ({ label, type, placeholder, value, error, disabled, required, onChange, ...props }) => {
+    const { 'data-testid': dataTestId, ...restProps } = props;
+
     const renderInputContent = () => {
         switch (type) {
             case 'rating':
-                return <InputRating {...props} value={value} onChange={onChange} />;
+                return <InputRating {...restProps} value={value} onChange={onChange} />;
             case 'textarea':
                 return (
                     <JoyTextarea
-                        {...props}
+                        {...restProps}
                         placeholder={placeholder}
                         value={value}
                         onChange={(e) => onChange(e.target.value)}
                         error={!!error}
                         disabled={disabled}
+                        slotProps={{
+                            textarea: {
+                                'data-testid': dataTestId
+                            }
+                        }}
                     />
                 );
             default:
                 return (
                     <JoyInput
-                        {...props}
+                        {...restProps}
                         sx={{ background: 'none' }}
                         type={type}
                         placeholder={placeholder}
@@ -30,6 +37,11 @@ const Input = ({ label, type, placeholder, value, error, disabled, required, onC
                         onChange={(e) => onChange(e.target.value)}
                         error={!!error}
                         disabled={disabled}
+                        slotProps={{
+                            input: {
+                                'data-testid': dataTestId
+                            }
+                        }}
                     />
                 );
         }

@@ -1,3 +1,4 @@
+import { Notice } from 'domain';
 import React, { useEffect } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Snackbar, Box, Alert, Typography} from '@mui/joy';
@@ -5,9 +6,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import WarningIcon from '@mui/icons-material/Warning';
 import ReportIcon from '@mui/icons-material/Report';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-
 import appActions from "actions/appActions";
-import { Notice } from 'domain';
 
 const ICONS = {
     [Notice.TYPE_INFO]: <InfoIcon />,

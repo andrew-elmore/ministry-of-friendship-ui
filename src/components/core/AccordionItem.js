@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-
 import { useTheme } from '@mui/material';
-
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-
 import Accordion, { accordionClasses } from '@mui/joy/Accordion';
 import AccordionDetails from '@mui/joy/AccordionDetails';
 import AccordionGroup from '@mui/joy/AccordionGroup';
 import AccordionSummary from '@mui/joy/AccordionSummary';
 import Box from '@mui/joy/Box';
-
 import Typography from './Typography';
 
 const addZeroWidthSpacesToTitle = (title) => {

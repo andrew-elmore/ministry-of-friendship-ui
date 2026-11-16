@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from "prop-types";
 import ImageIcon from "@mui/icons-material/Image";
-
 import AspectRatio from "./AspectRatio";
 
 const ImageTile = ({ src, alt, color, variant, disabled, width }) => (
