@@ -5,7 +5,7 @@ This E2E testing framework simulates multiple autonomous AI players interacting 
 ## Overview
 
 The simulation creates autonomous AI players that:
-- Generate random accounts with varied preferences
+- Sign in as throwaway Clerk test users and enlist with random gamer tags and preferences
 - Search for lobby matches
 - Create lobbies when no matches are found
 - Randomly mark slots as CLASSIFIED (30% chance on creation)
@@ -44,6 +44,8 @@ The simulation creates autonomous AI players that:
 
 1. MongoDB running on localhost:27017
 2. Node.js and npm installed
+3. A Clerk development instance: `CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY` in the UI `.env`, and the same keys in the API `.env`
+4. The `OPEN` and `CLASSIFIED` placeholder Profiles in the test database (see the API README)
 
 ## Running the Simulation
 
@@ -57,9 +59,8 @@ npm run start:test
 ```
 
 This starts Parse Server on port 1338 with:
-- Email validation DISABLED
+- Clerk session verification in front of every Parse route
 - Test database: mongodb://localhost:27017/ministry-test
-- Mock email adapter (logs to console instead of sending)
 
 ### Step 2: Start Test Frontend
 
@@ -143,7 +144,7 @@ Final summary printed at end of simulation.
 
 **Players fail to generate accounts**
 - Check test Parse Server logs for errors
-- Verify email validation is disabled (should see "Email validation: DISABLED" in startup logs)
+- Confirm both `.env` files point at the same Clerk development instance; each player is a Clerk test user created with the Backend API and deleted when the player stops
 
 ## Test Environment Isolation
 
@@ -151,6 +152,5 @@ The simulation uses completely separate infrastructure:
 - Test Parse Server (port 1338) vs dev (port 1337)
 - Test database (ministry-test) vs dev database
 - Test UI (port 8081) vs dev (port 3000)
-- Email validation disabled for test environment
 
 This ensures zero impact on development or production data.

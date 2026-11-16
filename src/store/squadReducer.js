@@ -11,6 +11,8 @@ export default function squadReducer(state = initState, action) {
     const { type, payload, meta } = action;
     let squadMeetsPreference = false;
     switch (type) {
+        case 'CLEAR_PROFILE_PENDING':
+            return { ...initState };
         case 'JOIN_SQUAD_PENDING':
         case 'LIST_SQUAD_PENDING':
         case 'GET_SQUAD_PENDING':

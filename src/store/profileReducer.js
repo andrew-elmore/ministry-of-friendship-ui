@@ -3,6 +3,7 @@ import {Profile} from "domain";
 export const initState = {
     current: null,
     me: null,
+    hasLoadedMe: false,
     isLoading: false,
     hasFailed: false,
     classified: null,
@@ -13,28 +14,32 @@ export default function profileReducer(state = initState, action) {
     const { type, payload, meta } = action;
 
     switch (type) {
-        case 'LOGOUT_USER_PENDING':
-        case 'LOGIN_USER_REJECTED':
-        case 'RESTORE_PROFILE_REJECTED':
-        case 'CLEAR_EMPLOYEE_PENDING': {
+        case 'RESTORE_PROFILE_REJECTED': {
+            return { ...initState, hasFailed: true };
+        }
+
+        case 'CLEAR_PROFILE_PENDING': {
             return { ...initState };
         }
 
         case 'SET_PROFILE_PENDING':
         case 'GET_PROFILE_PENDING':
         case 'GET_CLASSIFIED_PENDING':
+        case 'CREATE_PROFILE_PENDING':
         case 'RESTORE_PROFILE_PENDING': {
             return { ...state, isLoading: true, hasFailed: false };
         }
 
         case 'SET_PROFILE_REJECTED':
         case 'GET_CLASSIFIED_REJECTED':
+        case 'CREATE_PROFILE_REJECTED':
         case 'GET_PROFILE_REJECTED':{
             return { ...state, isLoading: false, hasFailed: true };
         }
 
-        case 'RESTORE_PROFILE_FULFILLED': {
-            return { ...state, me: new Profile(payload), isLoading: false, hasFailed: false };
+        case 'RESTORE_PROFILE_FULFILLED':
+        case 'CREATE_PROFILE_FULFILLED': {
+            return { ...state, me: payload ? new Profile(payload) : null, hasLoadedMe: true, isLoading: false, hasFailed: false };
         }
 
         case 'SAVE_PROFILE_FULFILLED':

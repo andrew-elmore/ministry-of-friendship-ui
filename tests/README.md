@@ -21,9 +21,9 @@ Files are named by the MODULE being tested:
 - E2E: `<feature-flow>.e2e.spec.ts`
 
 Examples:
-- `auth-actions.unit.test.js` - Tests for authActions.js
+- `profile-actions.unit.test.js` - Tests for profileActions.js
 - `squad-card.integration.test.jsx` - Tests for SquadCard.js component
-- `authentication.e2e.spec.ts` - E2E test for login/logout flow
+- `authentication.e2e.spec.ts` - E2E test for the Clerk sign in / sign out flow
 
 Card numbers go in file comments, NOT in filenames.
 
@@ -72,17 +72,20 @@ test('renders component with state', () => {
 ```
 
 ### E2E Tests
-Test complete user workflows.
+Test complete user workflows. Sign-in goes through Clerk: `tests/e2e/helpers/clerkUsers.js` creates a
+throwaway Clerk test user with the Backend API, signs it in with `@clerk/testing`, and deletes it afterwards.
+E2E runs need `CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY` (a development instance) in the UI `.env`, and the
+API test server (`npm run start:test` in the API repo) running on port 1338.
 
 ```typescript
 import { test, expect } from '@playwright/test';
+import { signInNewClerkUser, enlist, deleteClerkUser } from './helpers/clerkUsers.js';
 
-test('user can login', async ({ page }) => {
-  await page.goto('/');
-  await page.fill('[name="username"]', 'testuser');
-  await page.fill('[name="password"]', 'password');
-  await page.click('button[type="submit"]');
-  await expect(page).toHaveURL('/dashboard');
+test('a new Clerk user reaches the dashboard', async ({ page, baseURL }) => {
+  const clerkUser = await signInNewClerkUser(page, baseURL, 'example');
+  await enlist(page, 'ExampleDiver');
+  await expect(page.locator('text=Start A Squad')).toBeVisible();
+  await deleteClerkUser(clerkUser);
 });
 ```
 
